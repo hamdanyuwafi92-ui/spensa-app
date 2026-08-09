@@ -1,0 +1,261 @@
+{% extends "blog/base.html" %}
+{% load static %}
+{% block title %}Profil Sekolah | {{ brand.name|default:"SPENSA" }}{% endblock %}
+{% block extra_css %}
+    <style>
+        .school-profile-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 40px;
+            border-bottom: 1px dashed var(--glass-border);
+        }
+        .school-logo-large {
+            width: 140px;
+            height: 140px;
+            object-fit: contain;
+            margin-bottom: 24px;
+            background: white;
+            border-radius: 50%;
+            padding: 15px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+            border: 4px solid var(--glass-bg);
+        }
+        .school-logo-placeholder {
+            width: 140px;
+            height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+            background: linear-gradient(135deg, var(--indigo), var(--rose));
+            border-radius: 50%;
+            margin-bottom: 24px;
+            box-shadow: 0 15px 30px rgba(79, 70, 229, 0.2);
+            border: 4px solid var(--glass-bg);
+        }
+        .school-name-title {
+            font-size: 2.25rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 12px;
+            line-height: 1.2;
+        }
+        .school-address-subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 700px;
+            line-height: 1.6;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        @media (min-width: 768px) {
+            .info-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        .info-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--border-radius-md);
+            padding: 24px;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            transition: var(--transition);
+        }
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
+            background: rgba(255, 255, 255, 0.9);
+        }
+        .info-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--indigo-light), var(--rose-light));
+            color: var(--indigo);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            flex-shrink: 0;
+        }
+        .info-content {
+            flex-grow: 1;
+        }
+        .info-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .info-value {
+            font-size: 1.15rem;
+            color: var(--text-dark);
+            font-weight: 600;
+            margin: 0;
+            line-height: 1.4;
+        }
+        .info-value a {
+            color: var(--indigo);
+            transition: var(--transition);
+        }
+        .info-value a:hover {
+            color: var(--rose);
+        }
+        .info-subvalue {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+            font-weight: 500;
+        }
+        .badge-status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            background: var(--indigo-light);
+            color: var(--indigo);
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-right: 8px;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    {% if ads_leaderboard %}
+        <div class="ads-container ads-leaderboard glass-panel reveal"
+             style="overflow: hidden">
+            <a href="{{ ads_leaderboard.link }}" target="_blank" rel="nofollow">
+                <img src="{{ ads_leaderboard.image }}"
+                     alt="{{ ads_leaderboard.name }}"
+                     class="responsive-img">
+            </a>
+        </div>
+    {% endif %}
+    <div class="page-header reveal">
+        <h1 class="page-title"><i class="fa-solid fa-landmark"></i> Profil Sekolah</h1>
+        <nav class="breadcrumb">
+            <a href="/">Beranda</a>
+            <span><i class="fa-solid fa-angle-right"></i></span>
+            <span>Sekolah</span>
+        </nav>
+    </div>
+    <article class="page-content glass-panel reveal delay-1" style="padding: 40px;">
+        <div class="school-profile-header">
+            {% if school.logo %}
+                <img src="{{ school.logo.url }}" alt="{{ school.name }}" class="school-logo-large">
+            {% else %}
+                <div class="school-logo-placeholder">
+                    <i class="fa-solid fa-school"></i>
+                </div>
+            {% endif %}
+            <h2 class="school-name-title">{{ school.name|default:"Sekolah Kami" }}</h2>
+            <p class="school-address-subtitle"><i class="fa-solid fa-location-dot" style="color: var(--rose); margin-right: 8px;"></i> {{ school.address|default:"Alamat belum diatur" }}</p>
+        </div>
+
+        <section class="content-section">
+            <h3 class="section-heading" style="text-align: left; font-size: 1.5rem; margin-bottom: 24px;"><i class="fa-solid fa-circle-info"></i> Informasi Utama</h3>
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="info-icon"><i class="fa-solid fa-fingerprint"></i></div>
+                    <div class="info-content">
+                        <div class="info-label">NPSN</div>
+                        <p class="info-value">{{ school.npsn|default:"-" }}</p>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon"><i class="fa-solid fa-building-columns"></i></div>
+                    <div class="info-content">
+                        <div class="info-label">Status & Jenjang</div>
+                        <p class="info-value">
+                            {% if school.status %}<span class="badge-status">{{ school.status }}</span>{% endif %}
+                            {{ school.jenjang|default:"-" }}
+                        </p>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon"><i class="fa-solid fa-award"></i></div>
+                    <div class="info-content">
+                        <div class="info-label">Akreditasi</div>
+                        <p class="info-value">
+                            {% if school.akreditasi %}
+                                <span class="badge" style="background: var(--rose-light); color: var(--rose);">{{ school.akreditasi }}</span>
+                            {% else %}
+                                -
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon"><i class="fa-solid fa-user-tie"></i></div>
+                    <div class="info-content">
+                        <div class="info-label">Kepala Sekolah</div>
+                        <p class="info-value">{{ school.kepala_sekolah|default:"-" }}</p>
+                        {% if school.nip_kepsek %}
+                        <div class="info-subvalue">NIP. {{ school.nip_kepsek }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h3 class="section-heading" style="text-align: left; font-size: 1.5rem; margin-bottom: 24px;"><i class="fa-solid fa-address-book"></i> Kontak & Komunikasi</h3>
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="info-icon"><i class="fa-solid fa-phone"></i></div>
+                    <div class="info-content">
+                        <div class="info-label">Telepon / Fax</div>
+                        <p class="info-value">{{ school.phone|default:"-" }}</p>
+                        {% if school.fax %}
+                        <div class="info-subvalue">Fax: {{ school.fax }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon"><i class="fa-solid fa-envelope"></i></div>
+                    <div class="info-content">
+                        <div class="info-label">Email</div>
+                        <p class="info-value">
+                            {% if school.email %}
+                                <a href="mailto:{{ school.email }}">{{ school.email }}</a>
+                            {% else %}
+                                -
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon"><i class="fa-solid fa-globe"></i></div>
+                    <div class="info-content">
+                        <div class="info-label">Website</div>
+                        <p class="info-value">
+                            {% if school.website %}
+                                <a href="{{ school.website }}" target="_blank" rel="noopener">{{ school.website }}</a>
+                            {% else %}
+                                -
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon"><i class="fa-solid fa-map-pin"></i></div>
+                    <div class="info-content">
+                        <div class="info-label">Kode Pos</div>
+                        <p class="info-value">{{ school.kode_pos|default:"-" }}</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </article>
+{% endblock %}

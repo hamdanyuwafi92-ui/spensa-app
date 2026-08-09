@@ -1,0 +1,35 @@
+<div class="card glass-panel">
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Tahun Ajaran</th>
+                    <th>Semester</th>
+                    <th>Kelas</th>
+                    <th>Rata-rata Raport</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in entries %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ entry.activeyear }}</td>
+                        <td>{{ entry.semester }}</td>
+                        <td>{{ entry.classroom }}</td>
+                        <td><span class="badge badge-blue">{{ entry.average_raport }}</span></td>
+                        <td>
+                            <a href="{% url 'core:loglearning_detail' %}?year_id={{ entry.ay_id }}"
+                               class="btn btn-sm btn-onenote">Detail</a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="6">Belum ada data nilai.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

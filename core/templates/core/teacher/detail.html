@@ -1,0 +1,88 @@
+<div class="card glass-panel">
+    <h3 class="card-title">Detail Guru: {{ teacher.fullname }}</h3>
+    <div class="grid-cards" style="margin-bottom: 24px;">
+        <div class="card-stat c-word glass-panel">
+            <div class="stat-info">
+                <h4>Job</h4>
+                <h2>{{ teacher.job }}</h2>
+            </div>
+            <div class="stat-icon">
+                <i class="fa-solid fa-briefcase"></i>
+            </div>
+        </div>
+        <div class="card-stat c-excel glass-panel">
+            <div class="stat-info">
+                <h4>Status Akun</h4>
+                <h2>{% if teacher.user and teacher.user.is_active %}Aktif{% else %}Nonaktif{% endif %}</h2>
+            </div>
+            <div class="stat-icon">
+                <i class="fa-solid fa-shield-halved"></i>
+            </div>
+        </div>
+    </div>
+    <div class="grid-70-30">
+        <div>
+            <h4 class="mb-12">Data Pribadi</h4>
+            <table>
+                <tr>
+                    <th>NIP</th>
+                    <td>{{ teacher.nip }}</td>
+                </tr>
+                <tr>
+                    <th>NUPTK</th>
+                    <td>{{ teacher.nuptk|default:"-" }}</td>
+                </tr>
+                <tr>
+                    <th>Gender</th>
+                    <td>{{ teacher.gender }}</td>
+                </tr>
+                <tr>
+                    <th>Gelar Depan</th>
+                    <td>{{ teacher.gelar_depan|default:"-" }}</td>
+                </tr>
+                <tr>
+                    <th>Gelar Belakang</th>
+                    <td>{{ teacher.gelar_belakang|default:"-" }}</td>
+                </tr>
+                <tr>
+                    <th>Tempat, Tanggal Lahir</th>
+                    <td>{{ teacher.tempat_lahir }}, {{ teacher.tanggal_lahir|date:"d F Y" }}</td>
+                </tr>
+                <tr>
+                    <th>Alamat</th>
+                    <td>{{ teacher.alamat|linebreaksbr }}</td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <h4 class="mb-12">Kontak & Akun</h4>
+            <table>
+                <tr>
+                    <th>Nomor HP</th>
+                    <td>{{ teacher.nomor_hp }}</td>
+                </tr>
+                <tr>
+                    <th>Username</th>
+                    <td>{{ teacher.user.username|default:"-" }}</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>{{ teacher.user.email|default:"-" }}</td>
+                </tr>
+                {% if teacher.photo %}
+                    <tr>
+                        <th>Foto</th>
+                        <td>
+                            <img src="{{ teacher.photo.url }}"
+                                 alt="Foto {{ teacher.fullname }}"
+                                 class="thumbnail-preview">
+                        </td>
+                    </tr>
+                {% endif %}
+            </table>
+        </div>
+    </div>
+    <div class="btn-group mt-24">
+        <a href="{% url 'core:teacher_list' %}" class="btn btn-access">Kembali</a>
+    </div>
+</div>

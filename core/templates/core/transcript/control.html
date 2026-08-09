@@ -1,0 +1,29 @@
+<div class="card glass-panel mb-24 flex gap-12">
+    <form method="get" class="flex gap-12 w-full">
+        <select name="classroom_id" class="form-control">
+            <option value="">-- Pilih Kelas --</option>
+            {% for subject in subjects %}
+                <option value="{{ subject.classroom.id }}"
+                        {% if request.GET.classroom_id == subject.classroom.id|stringformat:"s" %}selected{% endif %}>
+                    {{ subject.classroom }} ({{ subject.activeyear }})
+                </option>
+            {% endfor %}
+        </select>
+        <select name="year_id" class="form-control">
+            <option value="">-- Pilih Tahun --</option>
+            {% for subject in subjects %}
+                <option value="{{ subject.activeyear.id }}"
+                        {% if request.GET.year_id == subject.activeyear.id|stringformat:"s" %}selected{% endif %}>
+                    {{ subject.activeyear.year.name }} - {{ subject.activeyear.semester.name }}
+                </option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn btn-word">Tampilkan</button>
+        {% if students %}
+            <a href="{% url 'core:transcript_all_pdf' %}?classroom_id={{ request.GET.classroom_id }}&year_id={{ request.GET.year_id }}"
+               class="btn btn-ppt">
+                <i class="fa-solid fa-file-pdf"></i> Download All PDF
+            </a>
+        {% endif %}
+    </form>
+</div>

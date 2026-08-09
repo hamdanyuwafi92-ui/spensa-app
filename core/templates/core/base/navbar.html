@@ -1,0 +1,40 @@
+<header class="navbar glass-panel" role="banner">
+    <div class="nav-left">
+        <button class="btn-toggle" id="navToggle" aria-label="Toggle sidebar">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+            <i class="fa-solid fa-chevron-right"></i>
+            <span>{{ breadcrumb_text|default:"" }}</span>
+        </nav>
+    </div>
+    <div class="nav-right">
+        <div class="search-container">
+            <i class="fa-solid fa-magnifying-glass search-icon" aria-hidden="true"></i>
+            <input type="search" class="search-input" placeholder="Cari...">
+        </div>
+        {% if request.user.is_authenticated %}
+            <div class="dropdown-wrapper" id="userDropdown">
+                <button class="avatar-btn" aria-expanded="false" aria-label="User menu">
+                    {{ request.user.get_full_name|default:request.user.username|default:"?"|slice:":1"|upper }}
+                </button>
+                <div class="dropdown-menu glass-panel">
+                    <a href="{% url 'core:profile' %}" class="dropdown-item">
+                        <i class="fa-solid fa-user"></i> Profil
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <form action="{% url 'logout' %}" method="post" style="margin:0; padding:0;">
+                        {% csrf_token %}
+                        <button type="submit" class="dropdown-item" style="color: var(--access); background: transparent; border: none; width: 100%; text-align: left; cursor: pointer; font: inherit;">
+                            <i class="fa-solid fa-right-from-bracket"></i> Keluar
+                        </button>
+                    </form>
+                </div>
+            </div>
+        {% else %}
+            <a href="{% url 'login' %}" class="btn btn-word">Masuk</a>
+        {% endif %}
+    </div>
+</header>

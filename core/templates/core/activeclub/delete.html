@@ -1,0 +1,20 @@
+<div class="modal-overlay" id="deleteModal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3>Konfirmasi Hapus</h3>
+            <button class="modal-close" onclick="closeModal('deleteModal')">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <form id="deleteForm" method="post">
+            {% csrf_token %}
+            <p>Yakin ingin menghapus klub aktif ini?</p>
+            <div class="btn-group" style="justify-content: flex-end;">
+                <button type="button"
+                        class="btn btn-access"
+                        onclick="closeModal('deleteModal')">Batal</button>
+                <button type="submit" class="btn btn-word">Hapus</button>
+            </div>
+        </form>
+    </div>
+</div>

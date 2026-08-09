@@ -1,0 +1,70 @@
+{% load static %}
+<header class="glass-panel" id="header">
+    <div class="container">
+        <nav class="navbar">
+            <a href="/" class="brand">
+                {% if school.logo %}
+                    <img src="{{ school.logo.url }}"
+                         alt="{{ school.name|default:'SPENSA' }}"
+                         class="brand-logo">
+                {% else %}
+                    <i class="fa-solid fa-graduation-cap brand-icon"></i>
+                {% endif %}
+                <span>{{ school.name|default:"SPENSA" }}</span>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                {% for menu in main_menus %}
+                    {% if menu.children %}
+                        <li class="dropdown">
+                            <a href="{{ menu.url }}" class="dropdown-toggle">
+                                {{ menu.name }} <i class="fa-solid fa-chevron-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                {% for child in menu.children %}
+                                    <li>
+                                        <a href="{{ child.url }}"
+                                           class="{% if request.resolver_match.url_name in child.active_patterns %}active{% endif %}">
+                                            {{ child.name }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a href="{{ menu.url }}"
+                               class="{% if request.resolver_match.url_name in menu.active_patterns %}active{% endif %}">
+                                {{ menu.name }}
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                {% if pages %}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">
+                            Halaman <i class="fa-solid fa-chevron-down"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            {% for page in pages %}
+                                <li>
+                                    <a href="{% url 'blog:page_detail' page.slug %}"
+                                       class="{% if request.resolver_match.url_name == 'page_detail' and request.resolver_match.kwargs.slug == page.slug %}active{% endif %}">
+                                        {{ page.title }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endif %}
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'core:index' %}">Dashboard</a></li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                {% endif %}
+            </ul>
+            <button class="mobile-toggle" id="mobileMenuBtn">
+                <i class="fa-solid fa-bars-staggered"></i>
+            </button>
+        </nav>
+    </div>
+</header>

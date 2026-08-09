@@ -1,0 +1,13 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Brand - {{ block.super }}{% endblock %}
+{% block heading %}{% endblock %}
+{% block content %}
+    {% if has_data %}
+        {% include "core/brand/hero.html" %}
+        {% include "core/brand/detail.html" %}
+        {% include "core/brand/control.html" %}
+    {% else %}
+        {% include "core/brand/fallback.html" %}
+    {% endif %}
+{% endblock %}

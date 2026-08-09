@@ -1,0 +1,42 @@
+<div class="card glass-panel">
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>Mata Pelajaran</th>
+                    <th>F1</th>
+                    <th>F2</th>
+                    <th>F3</th>
+                    <th>F4</th>
+                    <th>F5</th>
+                    <th>Sumatif</th>
+                    <th>Rata-rata Formatif</th>
+                    <th>Nilai Akhir</th>
+                    <th>Nilai Klub</th>
+                    <th>Deskripsi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in rows %}
+                    <tr>
+                        <td><strong>{{ row.subject_name }}</strong></td>
+                        <td>{{ row.f1 }}</td>
+                        <td>{{ row.f2 }}</td>
+                        <td>{{ row.f3 }}</td>
+                        <td>{{ row.f4 }}</td>
+                        <td>{{ row.f5 }}</td>
+                        <td>{{ row.sumatif }}</td>
+                        <td><span class="badge badge-green">{{ row.avg_formatif }}</span></td>
+                        <td><span class="badge badge-blue">{{ row.final_score }}</span></td>
+                        <td>{{ row.club_scores }}</td>
+                        <td>{{ row.description }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="11">Belum ada data nilai.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

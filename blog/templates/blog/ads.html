@@ -1,0 +1,10 @@
+{% if ads_leaderboard %}
+    <div class="ads-container ads-leaderboard glass-panel reveal"
+         style="overflow: hidden">
+        <a href="{{ ads_leaderboard.link }}" target="_blank" rel="nofollow">
+            <img src="{{ ads_leaderboard.image }}"
+                 alt="{{ ads_leaderboard.name }}"
+                 class="responsive-img">
+        </a>
+    </div>
+{% endif %}

@@ -1,0 +1,31 @@
+<aside class="sidebar glass-panel"
+       id="sidebar"
+       role="navigation"
+       aria-label="Main navigation">
+    <div class="sidebar-header">
+        {% if school.logo %}
+            <img src="{{ school.logo.url }}"
+                 alt="Logo {{ school.name|default:'Sekolah' }}"
+                 class="sidebar-logo">
+        {% else %}
+            <i class="fa-solid fa-school"></i>
+        {% endif %}
+        <span>{{ school.name|default:"SPENSA" }}</span>
+    </div>
+    <ul class="sidebar-menu">
+        {% for menu in menus %}
+            <li class="menu-category">{{ menu.category }}</li>
+            {% for item in menu.items %}
+                <li class="menu-item{% if request.path == item.url %} active{% endif %}">
+                    <a href="{{ item.url }}"
+                       class="menu-link"
+                       {% if request.path == item.url %} aria-current="page"{% endif %}>
+                        <i class="fa-solid {{ item.icon }}"></i> {{ item.name }}
+                    </a>
+                </li>
+            {% endfor %}
+        {% empty %}
+            <li class="menu-item">Menu belum tersedia</li>
+        {% endfor %}
+    </ul>
+</aside>

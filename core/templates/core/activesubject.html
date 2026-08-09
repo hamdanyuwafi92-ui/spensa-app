@@ -1,0 +1,22 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Mapel Aktif - {{ block.super }}{% endblock %}
+{% block extra_css %}{% endblock %}
+{% block heading %}{% endblock %}
+{% block content %}
+    {% include "core/activesubject/hero.html" %}
+    {% include "core/activesubject/control.html" %}
+    {% include "core/activesubject/table.html" %}
+    {% include "core/activesubject/mod.html" %}
+    {% include "core/activesubject/delete.html" %}
+{% endblock %}
+{% block extra_js %}
+    <script src="{% static 'js/activesubject.js' %}"></script>
+    {% if form_type == "activesubject" %}
+        <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        openModal('modalActiveSubjectForm');
+    });
+        </script>
+    {% endif %}
+{% endblock %}

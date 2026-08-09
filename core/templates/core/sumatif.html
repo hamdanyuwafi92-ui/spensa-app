@@ -1,0 +1,23 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Penilaian Sumatif - {{ block.super }}{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/report.css' %}">
+{% endblock %}
+{% block heading %}{% endblock %}
+{% block content %}
+    {% if subjects %}
+        {% include "core/sumatif/hero.html" %}
+        {% include "core/sumatif/control.html" %}
+        {% if students %}
+            {% include "core/sumatif/table.html" %}
+        {% elif selected_subject %}
+            <p class="text-center">Tidak ada siswa di kelas ini.</p>
+        {% endif %}
+    {% else %}
+        {% include "core/sumatif/fallback.html" %}
+    {% endif %}
+{% endblock %}
+{% block extra_js %}
+    <script src="{% static 'js/sumatif.js' %}"></script>
+{% endblock %}

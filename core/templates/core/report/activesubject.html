@@ -1,0 +1,29 @@
+<div class="table-responsive">
+    <table>
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Mata Pelajaran</th>
+                <th>Guru Pengampu</th>
+                <th>Total Jenjang</th>
+                <th>Total Kelas</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for as in active_subjects %}
+                <tr>
+                    <td><span class="badge badge-light">{{ forloop.counter }}</span></td>
+                    <td><i class="fa-solid fa-book icon-indicator" style="color: var(--excel);"></i> <strong>{{ as.subject.name }}</strong></td>
+                    <td><i class="fa-solid fa-chalkboard-teacher icon-indicator"
+   style="color: var(--word)"></i> {{ as.teacher.fullname|default:"-" }}</td>
+                    <td><span class="badge badge-purple">{{ as.total_jenjang }}</span></td>
+                    <td><span class="badge badge-orange">{{ as.total_kelas }}</span></td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center">Belum ada data mapel aktif.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

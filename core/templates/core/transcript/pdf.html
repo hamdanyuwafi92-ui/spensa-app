@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="id">
+    <head>
+        <meta charset="UTF-8">
+        <title>Transkrip Nilai - {{ student.fullname }}</title>
+        <style>
+            /* ── Reset & Base ── */
+            * {
+                margin: 0;
+                padding: 0;
+            }
+
+            @page {
+                size: A4;
+                margin: 1.5cm;
+            }
+
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                font-size: 11px;
+                color: #323130;
+                line-height: 1.5;
+            }
+
+            /* ── Container ── */
+            .container {
+                width: 100%;
+                background: #ffffff;
+                padding: 24px 0 0 0;
+            }
+
+            /* ── 1. School Header ── */
+            .school-header {
+                width: 100%;
+                border-bottom: 3px solid #2B579A;
+                padding-bottom: 16px;
+                margin-bottom: 24px;
+            }
+
+            .school-header td {
+                border: none;
+                vertical-align: middle;
+            }
+
+            .school-logo-cell {
+                width: 90px;
+                padding-right: 16px;
+            }
+
+            .school-logo-cell img {
+                width: 80px;
+                height: 80px;
+            }
+
+            .school-name {
+                font-size: 22px;
+                font-weight: 700;
+                color: #2B579A;
+                margin-bottom: 2px;
+                letter-spacing: 0.5px;
+            }
+
+            .school-detail {
+                font-size: 11px;
+                color: #605E5C;
+                margin: 1px 0;
+            }
+
+            .school-badge {
+                display: inline-block;
+                color: #080101ff;
+                padding: 4px 10px;
+                font-size: 10px;
+                font-weight: 700;
+                letter-spacing: 0.3px;
+                margin-top: 6px;
+                vertical-align: middle;
+            }
+
+            /* ── 2. Biodata Section ── */
+            .biodata-wrapper {
+                width: 100%;
+                border-left: 5px solid #A4373A;
+                margin-bottom: 28px;
+            }
+
+            .biodata-wrapper td {
+                border: none;
+                padding: 16px;
+                vertical-align: top;
+            }
+
+            .photo-cell {
+                width: 110px;
+                padding-right: 0;
+            }
+
+            .photo-frame {
+                width: 96px;
+                height: 120px;
+                background-color: #ffffff;
+                border: 2px solid #E1DFDD;
+                text-align: center;
+                padding: 4px;
+            }
+
+            .photo-frame img {
+                width: 88px;
+                height: 112px;
+            }
+
+            .photo-placeholder {
+                width: 88px;
+                height: 112px;
+                background-color: #E1DFDD;
+                text-align: center;
+                color: #605E5C;
+                font-size: 10px;
+                padding-top: 48px;
+            }
+
+            .biodata-table {
+                width: 100%;
+                margin: 0;
+                background: transparent;
+            }
+
+            .biodata-table td {
+                border: none;
+                padding: 4px 8px;
+                font-size: 12px;
+                background: transparent;
+            }
+
+            .biodata-label {
+                width: 140px;
+                font-weight: 700;
+                color: #A4373A;
+                text-align: left;
+            }
+
+            .biodata-sep {
+                width: 10px;
+                text-align: center;
+            }
+            /* ── Section Titles ── */
+            .section-title {
+                font-size: 16px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                padding-bottom: 6px;
+                margin-bottom: 10px;
+                margin-top: 28px;
+            }
+
+            .title-green {
+                color: #217346;
+                border-bottom: 2px solid #217346;
+            }
+
+            .title-orange {
+                color: #D24726;
+                border-bottom: 2px solid #D24726;
+            }
+
+            .title-purple {
+                color: #7719AA;
+                border-bottom: 2px solid #7719AA;
+            }
+
+            /* ── Generic Table ── */
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 16px;
+            }
+
+            th, td {
+                border: 1px solid #E1DFDD;
+                padding: 8px 10px;
+                text-align: center;
+                font-size: 11px;
+            }
+
+            td.text-left {
+                text-align: left;
+            }
+
+            /* ── 3. Summary Table (Excel Green) ── */
+            .table-summary th {
+                background-color: #217346;
+                color: #ffffff;
+                font-weight: 600;
+                font-size: 11px;
+                text-transform: uppercase;
+                letter-spacing: 0.3px;
+            }
+
+            .table-summary tr.row-even {
+                background-color: #f2faf5;
+            }
+
+            .table-summary .footer-row {
+                background-color: #F3F2F1;
+                font-weight: 700;
+            }
+
+            .table-summary .footer-row td {
+                border-top: 2px solid #217346;
+            }
+
+            .score-highlight {
+                font-weight: 700;
+                font-size: 13px;
+                color: #217346;
+            }
+
+            /* ── 4. Detail Table (PowerPoint Orange) ── */
+            .table-detail th {
+                background-color: #D24726;
+                color: #ffffff;
+                font-weight: 600;
+                font-size: 10px;
+                text-transform: uppercase;
+                letter-spacing: 0.3px;
+            }
+
+            .table-detail tr.row-even {
+                background-color: #fef7f5;
+            }
+
+            .table-detail .col-score {
+                font-weight: 600;
+            }
+
+            /* ── 5. Club Table (OneNote Purple) ── */
+            .table-club th {
+                background-color: #7719AA;
+                color: #ffffff;
+                font-weight: 600;
+                font-size: 11px;
+                text-transform: uppercase;
+                letter-spacing: 0.3px;
+            }
+
+            .table-club tr.row-even {
+                background-color: #faf5fd;
+            }
+
+            .table-club td.desc-cell {
+                text-align: left;
+                font-size: 10px;
+                color: #605E5C;
+            }
+
+            /* ── Empty State ── */
+            .empty-state {
+                text-align: center;
+                color: #A19F9D;
+                font-style: italic;
+                padding: 16px;
+                background-color: #F3F2F1;
+                border: 1px dashed #E1DFDD;
+                margin-bottom: 16px;
+            }
+
+            /* ── Score Badge ── */
+            .badge-score {
+                display: inline-block;
+                padding: 2px 10px;
+                border-radius: 10px;
+                font-size: 11px;
+                font-weight: 700;
+                color: #ffffff;
+                background-color: #217346;
+                min-width: 36px;
+                text-align: center;
+            }
+
+            /* ── Footer ── */
+            .report-footer {
+                width: 100%;
+                margin-top: 32px;
+                border-top: 2px solid #E1DFDD;
+                padding-top: 12px;
+            }
+
+            .report-footer td {
+                border: none;
+                font-size: 10px;
+                color: #A19F9D;
+                vertical-align: top;
+            }
+
+            .report-footer .sign-area {
+                text-align: center;
+                padding-top: 8px;
+            }
+
+            .sign-line {
+                display: inline-block;
+                width: 160px;
+                border-bottom: 1px solid #323130;
+                margin-top: 50px;
+            }
+
+            .sign-label {
+                font-size: 11px;
+                color: #323130;
+                font-weight: 600;
+                margin-top: 4px;
+            }
+
+            .sign-nip {
+                font-size: 10px;
+                color: #605E5C;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <!-- ════════════════════════════════════════════ -->
+            <!-- 1. SCHOOL HEADER                            -->
+            <!-- ════════════════════════════════════════════ -->
+            <table class="school-header">
+                <tr>
+                    {% if school.logo %}
+                        <td class="school-logo-cell">
+                            <img src="{{ school.logo.path }}" alt="Logo Sekolah">
+                        </td>
+                    {% endif %}
+                    <td>
+                        <div class="school-name">{{ school.name }}</div>
+                        {% if school.address %}
+                            <p class="school-detail">{{ school.address }}{% if school.kode_pos %}, Kode Pos {{ school.kode_pos }}{% endif %}</p>
+                        {% endif %}
+                        {% if school.phone or school.email %}
+                            <p class="school-detail">
+                                {% if school.phone %}Telp: {{ school.phone }}{% endif %}
+                                {% if school.phone and school.email %}|{% endif %}
+                                {% if school.email %}Email: {{ school.email }}{% endif %}
+                                {% if school.fax %}| Fax: {{ school.fax }}{% endif %}
+                            </p>
+                        {% endif %}
+                        {% if school.npsn %}
+                            <p class="school-detail">NPSN: {{ school.npsn }}</p>
+                        {% endif %}
+                        {% if school.akreditasi %}
+                            <span class="school-badge">Akreditasi: {{ school.akreditasi }}</span>
+                        {% endif %}
+                    </td>
+                    <td style="border:none;
+                               text-align:middle;
+                               width:120px;
+                               vertical-align:middle">
+                        <p style="font-size:10px; color:#605E5C; text-transform:uppercase;">Tahun Ajaran</p>
+                        <p style="font-size:16px; font-weight:700; color:#2B579A;">{{ year_name }}</p>
+                        <p style="font-size:12px; color:#605E5C;">{{ semester_name }}</p>
+                    </td>
+                </tr>
+            </table>
+            <!-- ════════════════════════════════════════════ -->
+            <!-- 2. BIODATA SISWA                            -->
+            <!-- ════════════════════════════════════════════ -->
+            <table class="biodata-wrapper">
+                <tr>
+                    <td class="photo-cell">
+                        <div class="photo-frame">
+                            {% if student.photo %}
+                                <img src="{{ student.photo.path }}" alt="Foto Siswa">
+                            {% else %}
+                                <div class="photo-placeholder">
+                                    Tidak ada
+                                    <br>
+                                    foto
+                                </div>
+                            {% endif %}
+                        </div>
+                    </td>
+                    <td>
+                        <table class="biodata-table">
+                            <tr>
+                                <td class="biodata-label">Nama Lengkap</td>
+                                <td class="biodata-sep">:</td>
+                                <td style="text-align:left;"><strong>{{ student.fullname }}</strong></td>
+                            </tr>
+                            <tr>
+                                <td class="biodata-label">NISN</td>
+                                <td class="biodata-sep">:</td>
+                                <td style="text-align:left;">{{ student.nisn }}</td>
+                            </tr>
+                            {% if student.nis %}
+                                <tr>
+                                    <td class="biodata-label">NIS</td>
+                                    <td class="biodata-sep">:</td>
+                                    <td style="text-align:left;">{{ student.nis }}</td>
+                                </tr>
+                            {% endif %}
+                            <tr>
+                                <td class="biodata-label">Kelas</td>
+                                <td class="biodata-sep">:</td>
+                                <td style="text-align:left;">{{ classroom }}</td>
+                            </tr>
+                            <tr>
+                                <td class="biodata-label">Jenis Kelamin</td>
+                                <td class="biodata-sep">:</td>
+                                <td style="text-align:left;">{{ student.gender }}</td>
+                            </tr>
+                            <tr>
+                                <td class="biodata-label">Tahun Ajaran</td>
+                                <td class="biodata-sep">:</td>
+                                <td style="text-align:left;">{{ year_name }} - {{ semester_name }}</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+            <!-- ════════════════════════════════════════════ -->
+            <!-- 3. RANGKUMAN NILAI AKHIR (Excel Green)      -->
+            <!-- ════════════════════════════════════════════ -->
+            <h2 class="section-title title-green">Rangkuman Nilai Akhir</h2>
+            <table class="table-summary">
+                <thead>
+                    <tr>
+                        <th style="width:6%;">No</th>
+                        <th style="width:54%; text-align:left;">Mata Pelajaran</th>
+                        <th style="width:20%;">Nilai Akhir</th>
+                        <th style="width:20%;">Predikat</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in rows %}
+                        <tr{% if forloop.counter|divisibleby:2 %} class="row-even"{% endif %}>
+                            <td>{{ forloop.counter }}</td>
+                            <td class="text-left">{{ row.subject_name }}</td>
+                            <td><span class="score-highlight">{{ row.final_score }}</span></td>
+                            <td>
+                                {% if row.final_score >= 90 %}
+                                    <span>A</span>
+                                {% elif row.final_score >= 80 %}
+                                    <span>B</span>
+                                {% elif row.final_score >= 70 %}
+                                    <span>C</span>
+                                {% else %}
+                                    <span>D</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <!-- ════════════════════════════════════════════ -->
+            <!-- 4. RINCIAN NILAI (PowerPoint Orange)        -->
+            <!-- ════════════════════════════════════════════ -->
+            <h2 class="section-title title-orange">Rincian Penilaian</h2>
+            <table class="table-detail">
+                <thead>
+                    <tr>
+                        <th style="width:5%;">No</th>
+                        <th style="width:23%; text-align:left;">Mata Pelajaran</th>
+                        <th style="width:8%;">P1</th>
+                        <th style="width:8%;">P2</th>
+                        <th style="width:8%;">P3</th>
+                        <th style="width:8%;">P4</th>
+                        <th style="width:8%;">P5</th>
+                        <th style="width:10%;">Sumatif</th>
+                        <th style="width:10%;">Rata-rata</th>
+                        <th style="width:12%;">Nilai Akhir</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in rows %}
+                        <tr{% if forloop.counter|divisibleby:2 %} class="row-even"{% endif %}>
+                            <td>{{ forloop.counter }}</td>
+                            <td class="text-left">{{ row.subject_name }}</td>
+                            <td>{{ row.f1 }}</td>
+                            <td>{{ row.f2 }}</td>
+                            <td>{{ row.f3 }}</td>
+                            <td>{{ row.f4 }}</td>
+                            <td>{{ row.f5 }}</td>
+                            <td class="col-score">{{ row.sumatif }}</td>
+                            <td class="col-score">{{ row.avg_formatif }}</td>
+                            <td><strong style="color:#D24726;">{{ row.final_score }}</strong></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <!-- ════════════════════════════════════════════ -->
+            <!-- 5. NILAI EKSTRAKURIKULER (OneNote Purple)   -->
+            <!-- ════════════════════════════════════════════ -->
+            <h2 class="section-title title-purple">Nilai Ekstrakurikuler</h2>
+            {% if club_rows %}
+                <table class="table-club">
+                    <thead>
+                        <tr>
+                            <th style="width:6%;">No</th>
+                            <th style="width:24%;">Nama Klub</th>
+                            <th style="width:14%;">Nilai</th>
+                            <th style="width:56%; text-align:left;">Deskripsi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for club in club_rows %}
+                            <tr{% if forloop.counter|divisibleby:2 %} class="row-even"{% endif %}>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ club.club_name }}</td>
+                                <td><span>{{ club.score }}</span></td>
+                                <td class="desc-cell">{{ club.description }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="empty-state">Tidak mengikuti kegiatan ekstrakurikuler pada periode ini.</div>
+            {% endif %}
+            <!-- ════════════════════════════════════════════ -->
+            <!-- 6. TANDA TANGAN                             -->
+            <!-- ════════════════════════════════════════════ -->
+            <table class="report-footer">
+                <tr>
+                    <td style="width:50%; text-align:left;">
+                        <p style="font-size:10px; color:#A19F9D;">Dokumen ini digenerate secara otomatis oleh sistem SPENSA.</p>
+                    </td>
+                    <td class="sign-area">
+                        <p style="font-size:10px; color:#605E5C;">Mengetahui,</p>
+                        <p style="font-size:11px; font-weight:600; color:#323130;">Kepala Sekolah</p>
+                        <br>
+                        <br>
+                        <br>
+                        {% if school.kepala_sekolah %}
+                            <p class="sign-label">{{ school.kepala_sekolah }}</p>
+                            {% if school.nip_kepsek %}
+                                <p class="sign-nip">NIP. {{ school.nip_kepsek }}</p>
+                            {% endif %}
+                        {% else %}
+                            <div class="sign-line"></div>
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>

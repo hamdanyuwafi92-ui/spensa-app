@@ -1,0 +1,84 @@
+@keyframes fadeSlideUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeSlideRight {
+    0% {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes popIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.95) translateY(-10px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes toastIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-30px) scale(0.9);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes toastOut {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-30px) scale(0.9);
+    }
+}
+
+.anim-group>* {
+    opacity: 0;
+    animation: fadeSlideUp 0.6s cubic-bezier(0.25, 1, 0.35, 1) forwards;
+}
+
+.anim-group>*:nth-child(1) {
+    animation-delay: 0.05s;
+}
+
+.anim-group>*:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.anim-group>*:nth-child(3) {
+    animation-delay: 0.15s;
+}
+
+.anim-group>*:nth-child(4) {
+    animation-delay: 0.2s;
+}
+
+.anim-group>*:nth-child(5) {
+    animation-delay: 0.25s;
+}

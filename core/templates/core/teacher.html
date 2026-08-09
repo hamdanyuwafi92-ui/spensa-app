@@ -1,0 +1,14 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Guru - {{ block.super }}{% endblock %}
+{% block heading %}{% endblock %}
+{% block content %}
+    {% include "core/teacher/hero.html" %}
+    {% include "core/teacher/control.html" %}
+    {% include "core/teacher/table.html" %}
+    {% include "core/teacher/delete.html" %}
+    {% include "core/teacher/reset_password.html" %}
+{% endblock %}
+{% block extra_js %}
+    <script src="{% static 'js/teacher.js' %}"></script>
+{% endblock %}

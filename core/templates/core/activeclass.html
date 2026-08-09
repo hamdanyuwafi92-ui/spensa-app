@@ -1,0 +1,22 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Kelas Aktif - {{ block.super }}{% endblock %}
+{% block extra_css %}{% endblock %}
+{% block heading %}{% endblock %}
+{% block content %}
+    {% include "core/activeclass/hero.html" %}
+    {% include "core/activeclass/control.html" %}
+    {% include "core/activeclass/table.html" %}
+    {% include "core/activeclass/mod.html" %}
+    {% include "core/activeclass/delete.html" %}
+{% endblock %}
+{% block extra_js %}
+    <script src="{% static 'js/activeclass.js' %}"></script>
+    {% if form_type == "activeclass" %}
+        <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        openModal('modalActiveClassForm');
+    });
+        </script>
+    {% endif %}
+{% endblock %}

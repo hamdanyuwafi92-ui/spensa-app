@@ -1,0 +1,50 @@
+<div class="modal-overlay" id="modalActiveSubjectForm">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 id="modalActiveSubjectTitle">Tambah Mapel Aktif</h3>
+            <button class="modal-close" onclick="closeModal('modalActiveSubjectForm')">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <form id="activeSubjectForm" method="post">
+            {% csrf_token %}
+            <input type="hidden"
+                   name="activeyear"
+                   id="id_activeyear"
+                   value="{{ active_year.id|default:'' }}">
+            <div class="form-group">
+                <label class="form-label">Mata Pelajaran</label>
+                <select name="subject" class="form-control" id="id_subject" required>
+                    <option value="">---------</option>
+                    {% for subject in subjects %}
+                        <option value="{{ subject.id }}">{{ subject.code }} - {{ subject.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Kelas</label>
+                <select name="classroom" class="form-control" id="id_classroom" required>
+                    <option value="">---------</option>
+                    {% for classroom in classrooms %}
+                        <option value="{{ classroom.id }}">{{ classroom }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Guru Pengampu</label>
+                <select name="teacher" class="form-control" id="id_teacher" required>
+                    <option value="">---------</option>
+                    {% for teacher in teachers %}
+                        <option value="{{ teacher.id }}">{{ teacher.fullname }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="btn-group">
+                <button type="submit" class="btn btn-word">Simpan</button>
+                <button type="button"
+                        class="btn btn-access"
+                        onclick="closeModal('modalActiveSubjectForm')">Batal</button>
+            </div>
+        </form>
+    </div>
+</div>

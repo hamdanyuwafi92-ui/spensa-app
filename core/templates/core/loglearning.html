@@ -1,0 +1,15 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Riwayat Nilai - {{ block.super }}{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/report.css' %}">
+{% endblock %}
+{% block heading %}{% endblock %}
+{% block content %}
+    {% if entries %}
+        {% include "core/loglearning/hero.html" %}
+        {% include "core/loglearning/table.html" %}
+    {% else %}
+        {% include "core/loglearning/fallback.html" %}
+    {% endif %}
+{% endblock %}

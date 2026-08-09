@@ -1,0 +1,19 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Artikel - {{ block.super }}{% endblock %}
+{% block extra_css %}{% endblock %}
+{% block heading %}{% endblock %}
+{% block content %}
+    {% if view_mode == 'list' %}
+        {% include "core/article/hero.html" %}
+        {% include "core/article/control.html" %}
+        {% include "core/article/table.html" %}
+    {% elif view_mode == 'create' or view_mode == 'update' %}
+        {% include "core/article/form.html" %}
+    {% endif %}
+    {% include "core/article/delete.html" %}
+{% endblock %}
+{% block extra_js %}
+    {{ form.media }}
+    <script src="{% static 'js/article.js' %}"></script>
+{% endblock %}

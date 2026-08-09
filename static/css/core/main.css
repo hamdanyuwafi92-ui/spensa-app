@@ -1,0 +1,94 @@
+:root {
+    --word: #2B579A;
+    --excel: #217346;
+    --powerpoint: #D24726;
+    --access: #A4373A;
+    --onenote: #80397B;
+    --outlook: #0078D7;
+    --bg-body: #F3F6F9;
+    --bg-glass: rgba(255, 255, 255, 0.75);
+    --bg-glass-hover: rgba(255, 255, 255, 0.95);
+    --border-glass: rgba(255, 255, 255, 0.6);
+    --text-dark: #202020;
+    --text-muted: #5D5D5D;
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 6px 16px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 12px 28px rgba(0, 0, 0, 0.08);
+    --transition: all 0.35s cubic-bezier(0.25, 1, 0.35, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Assistant', sans-serif;
+    font-size: 14px;
+    color: var(--text-dark);
+    background: var(--bg-body) url('data:image/svg+xml;utf8,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="40" fill="rgba(43,87,154,0.02)"/><circle cx="10" cy="90" r="20" fill="rgba(33,115,70,0.02)"/></svg>') fixed;
+    background-size: 400px 400px;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+button {
+    font-family: 'Assistant', sans-serif;
+    cursor: pointer;
+    border: none;
+    outline: none;
+}
+
+input,
+select,
+textarea {
+    font-family: 'Assistant', sans-serif;
+    outline: none;
+}
+
+.layout-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    min-height: 100vh;
+}
+
+.main-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 100vh;
+    transition: var(--transition);
+}
+
+.content {
+    padding: 24px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.page-heading {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 0;
+}
+
+@media (min-width: 992px) {
+    .layout-grid {
+        grid-template-columns: 260px 1fr;
+    }
+}

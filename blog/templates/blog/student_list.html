@@ -1,0 +1,141 @@
+{% extends "blog/base.html" %}
+{% load static %}
+{% block title %}Daftar Siswa | {{ brand.name|default:"SPENSA" }}{% endblock %}
+{% block extra_css %}
+    <style>
+        .student-card {
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            border-radius: var(--border-radius-lg);
+            transition: var(--transition);
+        }
+        .student-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        .student-photo-wrap {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            margin-bottom: 24px;
+            position: relative;
+            padding: 4px;
+            background: linear-gradient(135deg, var(--indigo), var(--rose));
+            box-shadow: 0 10px 20px rgba(79, 70, 229, 0.2);
+        }
+        .student-photo-wrap img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--glass-bg);
+            background: white;
+        }
+        .student-photo-placeholder {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 4px solid var(--glass-bg);
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: var(--indigo);
+        }
+        .student-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+        .student-status {
+            font-size: 0.95rem;
+            color: var(--indigo);
+            font-weight: 600;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .student-nisn {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.5);
+            padding: 6px 16px;
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    {% if ads_leaderboard %}
+        <div class="ads-container ads-leaderboard glass-panel reveal"
+             style="overflow: hidden">
+            <a href="{{ ads_leaderboard.link }}" target="_blank" rel="nofollow">
+                <img src="{{ ads_leaderboard.image }}"
+                     alt="{{ ads_leaderboard.name }}"
+                     class="responsive-img">
+            </a>
+        </div>
+    {% endif %}
+    <div class="page-header reveal">
+        <h1 class="page-title"><i class="fa-solid fa-user-graduate"></i> Daftar Siswa</h1>
+        <nav class="breadcrumb">
+            <a href="/">Beranda</a>
+            <span><i class="fa-solid fa-angle-right"></i></span>
+            <span>Siswa</span>
+        </nav>
+    </div>
+    <div class="grid">
+        {% for student in students %}
+            <div class="student-card glass-panel reveal delay-{{ forloop.counter|default:1|stringformat:'s'|slice:'-1:' }}">
+                <div class="student-photo-wrap">
+                    {% if student.photo %}
+                        <img src="{{ student.photo.url }}" alt="{{ student.fullname }}">
+                    {% else %}
+                        <div class="student-photo-placeholder">
+                            <i class="fa-solid fa-user-graduate"></i>
+                        </div>
+                    {% endif %}
+                </div>
+                <h3 class="student-name">{{ student.fullname }}</h3>
+                <p class="student-status">{{ student.status|default:"Siswa" }}</p>
+                <p class="student-nisn"><i class="fa-regular fa-id-badge"></i> {{ student.nisn }}</p>
+            </div>
+        {% empty %}
+            <div class="glass-panel"
+                 style="padding:40px;
+                        text-align:center;
+                        grid-column:1/-1">
+                <p>Belum ada data siswa.</p>
+            </div>
+        {% endfor %}
+    </div>
+    {% if is_paginated %}
+        <div class="pagination">
+            {% if page_obj.has_previous %}
+                <a href="?page=1" class="page-link"><i class="fa-solid fa-angles-left"></i></a>
+                <a href="?page={{ page_obj.previous_page_number }}" class="page-link"><i class="fa-solid fa-angle-left"></i></a>
+            {% endif %}
+            {% for num in page_obj.paginator.page_range %}
+                {% if num >= page_obj.number|add:"-2" and num <= page_obj.number|add:"2" %}
+                    {% if page_obj.number == num %}
+                        <span class="page-link active">{{ num }}</span>
+                    {% else %}
+                        <a href="?page={{ num }}" class="page-link">{{ num }}</a>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="page-link"><i class="fa-solid fa-angle-right"></i></a>
+                <a href="?page={{ page_obj.paginator.num_pages }}" class="page-link"><i class="fa-solid fa-angles-right"></i></a>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endblock %}

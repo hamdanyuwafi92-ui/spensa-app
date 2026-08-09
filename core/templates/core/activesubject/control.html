@@ -1,0 +1,8 @@
+<div class="card glass-panel mb-24 flex gap-12">
+    {% if active_year %}
+        <button class="btn btn-word"
+                onclick="openModal('modalActiveSubjectForm', '{% url 'core:activesubject_create' %}')"><i class="fa-solid fa-plus"></i> Tambah Mapel Aktif</button>
+    {% else %}
+        <div class="alert alert-warning">Tidak ada tahun ajaran aktif. <a href="{% url 'core:year_manage' %}">Aktifkan tahun ajaran</a> terlebih dahulu.</div>
+    {% endif %}
+</div>

@@ -1,0 +1,22 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Ekstrakurikuler - {{ block.super }}{% endblock %}
+{% block extra_css %}{% endblock %}
+{% block heading %}{% endblock %}
+{% block content %}
+    {% include "core/club/hero.html" %}
+    {% include "core/club/control.html" %}
+    {% include "core/club/table.html" %}
+    {% include "core/club/form.html" %}
+    {% include "core/club/delete.html" %}
+{% endblock %}
+{% block extra_js %}
+    <script src="{% static 'js/club.js' %}"></script>
+    {% if form_type == "club" %}
+        <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        openModal('modalClubForm');
+    });
+        </script>
+    {% endif %}
+{% endblock %}

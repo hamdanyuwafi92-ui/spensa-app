@@ -1,0 +1,47 @@
+{% load static %}
+<footer class="glass-panel">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="/" class="brand">
+                    {% if school.logo %}
+                        <img src="{{ school.logo.url }}"
+                             alt="{{ school.name|default:'SPENSA' }}"
+                             class="brand-logo">
+                    {% else %}
+                        <i class="fa-solid fa-graduation-cap brand-icon"></i>
+                    {% endif %}
+                    <span>{{ school.name|default:"SPENSA" }}</span>
+                </a>
+                <p>{{ brand.description|default:"Membangun generasi cerdas berkarakter melalui pendidikan berkualitas dan teknologi inovatif." }}</p>
+            </div>
+            <div>
+                <h4 class="footer-title">Tautan Cepat</h4>
+                <ul class="footer-links">
+                    {% for link in footer_quick_links %}
+                        <li><a href="{{ link.url }}"><i class="fa-solid fa-angle-right"></i> {{ link.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div>
+                <h4 class="footer-title">Kategori</h4>
+                <ul class="footer-links">
+                    {% for cat in footer_categories %}
+                        <li><a href="{{ cat.url }}"><i class="fa-solid fa-angle-right"></i> {{ cat.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div>
+                <h4 class="footer-title">Kontak Kami</h4>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fa-solid fa-location-dot"></i> {{ school.address|default:"Jl. Pendidikan No. 123, Kota" }}</a></li>
+                    <li><a href="#"><i class="fa-solid fa-envelope"></i> {{ school.email|default:"info@spensa.sch.id" }}</a></li>
+                    <li><a href="#"><i class="fa-solid fa-phone"></i> {{ school.phone|default:"(021) 1234-5678" }}</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; {{ brand.tahun|default:"2026" }} {{ school.name|default:"SPENSA" }}. All rights reserved.</p>
+        </div>
+    </div>
+</footer>

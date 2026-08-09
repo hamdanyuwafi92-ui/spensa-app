@@ -1,0 +1,59 @@
+<div class="card glass-panel">
+    <h3 class="card-title">Informasi Brand</h3>
+    <div class="grid-70-30">
+        <div>
+            <h4 class="mb-12">Detail</h4>
+            <table>
+                <tr>
+                    <th>Nama</th>
+                    <td>{{ brand.name }}</td>
+                </tr>
+                <tr>
+                    <th>Versi</th>
+                    <td>{{ brand.version }}</td>
+                </tr>
+                <tr>
+                    <th>Tahun</th>
+                    <td>{{ brand.tahun }}</td>
+                </tr>
+                <tr>
+                    <th>Developer</th>
+                    <td>{{ brand.developer }}</td>
+                </tr>
+                <tr>
+                    <th>Deskripsi</th>
+                    <td>{{ brand.description|linebreaksbr }}</td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <h4 class="mb-12">Media Sosial</h4>
+            <table>
+                <tr>
+                    <th>Instagram</th>
+                    <td><a href="{{ brand.instagram }}" target="_blank">{{ brand.instagram }}</a></td>
+                </tr>
+                <tr>
+                    <th>YouTube</th>
+                    <td><a href="{{ brand.youtube }}" target="_blank">{{ brand.youtube }}</a></td>
+                </tr>
+                <tr>
+                    <th>TikTok</th>
+                    <td><a href="{{ brand.tiktok }}" target="_blank">{{ brand.tiktok }}</a></td>
+                </tr>
+                <tr>
+                    <th>Facebook</th>
+                    <td><a href="{{ brand.facebook }}" target="_blank">{{ brand.facebook }}</a></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    {% if brand.logo %}
+        <div class="mt-24">
+            <h4 class="mb-12">Logo</h4>
+            <img src="{{ brand.logo.url }}"
+                 class="thumbnail-preview"
+                 alt="{{ brand.name }} logo">
+        </div>
+    {% endif %}
+</div>

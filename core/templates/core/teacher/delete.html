@@ -1,0 +1,22 @@
+<div class="modal-overlay" id="deleteModal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3>Konfirmasi Hapus</h3>
+            <button type="button" class="modal-close" onclick="closeModal('deleteModal')">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <p>Yakin ingin menghapus guru ini? Akun pengguna juga akan dihapus.</p>
+            <form id="deleteForm" method="post">
+                {% csrf_token %}
+                <div class="btn-group" style="justify-content: flex-end;">
+                    <button type="button"
+                            class="btn btn-access"
+                            onclick="closeModal('deleteModal')">Batal</button>
+                    <button type="submit" class="btn btn-word">Hapus</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

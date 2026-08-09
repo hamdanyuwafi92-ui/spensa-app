@@ -1,0 +1,76 @@
+<div class="card glass-panel">
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Judul</th>
+                    <th>Thumbnail</th>
+                    <th>Caption</th>
+                    <th>Total Foto</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for album in albums %}
+                    <tr>
+                        <td>{{ forloop.counter0|add:page_obj.start_index }}</td>
+                        <td>{{ album.title }}</td>
+                        <td>
+                            {% if album.thumbnail %}
+                                <img src="{{ album.thumbnail.url }}"
+                                     alt="Thumbnail"
+                                     class="table-thumbnail">
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                        <td>{{ album.caption|truncatechars:50 }}</td>
+                        <td>{{ album.num_photos }}</td>
+                        <td>
+                            {% if album.created_by == request.user %}
+                                <a href="{% url 'core:album_manage' album.slug %}"
+                                   class="btn btn-sm btn-onenote"
+                                   title="Kelola Foto"><i class="fa-solid fa-images"></i></a>
+                                <a href="{% url 'core:album_update' album.slug %}"
+                                   class="btn btn-sm btn-excel"><i class="fa-solid fa-pen"></i></a>
+                                <button type="button"
+                                        class="btn btn-sm btn-access"
+                                        onclick="confirmDelete('{% url 'core:album_delete' album.slug %}')">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="6">Belum ada album.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% if is_paginated %}
+        <div class="pagination">
+            {% if page_obj.has_previous %}
+                <a href="?page=1" class="page-btn" title="Pertama"><i class="fa-solid fa-angles-left"></i></a>
+                <a href="?page={{ page_obj.previous_page_number }}" class="page-btn"><i class="fa-solid fa-angle-left"></i></a>
+            {% endif %}
+            {% for num in page_obj.paginator.page_range %}
+                {% if num >= page_obj.number|add:"-2" and num <= page_obj.number|add:"2" %}
+                    {% if page_obj.number == num %}
+                        <span class="page-btn active">{{ num }}</span>
+                    {% else %}
+                        <a href="?page={{ num }}" class="page-btn">{{ num }}</a>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="page-btn"><i class="fa-solid fa-angle-right"></i></a>
+                <a href="?page={{ page_obj.paginator.num_pages }}"
+                   class="page-btn"
+                   title="Terakhir"><i class="fa-solid fa-angles-right"></i></a>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>

@@ -1,0 +1,19 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Transkrip Nilai - {{ block.super }}{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/report.css' %}">
+{% endblock %}
+{% block heading %}{% endblock %}
+{% block content %}
+    {% if subjects %}
+        {% include "core/transcript/hero.html" %}
+        {% include "core/transcript/control.html" %}
+        {% if students %}
+            {% include "core/transcript/table.html" %}
+        {% endif %}
+    {% else %}
+        {% include "core/transcript/fallback.html" %}
+    {% endif %}
+{% endblock %}
+{% block extra_js %}{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Album - {{ block.super }}{% endblock %}
+{% block extra_css %}{% endblock %}
+{% block heading %}{% endblock %}
+{% block content %}
+    {% if view_mode == 'list' %}
+        {% include "core/album/hero.html" %}
+        {% include "core/album/control.html" %}
+        {% include "core/album/table.html" %}
+    {% elif view_mode == 'create' or view_mode == 'update' %}
+        {% include "core/album/form.html" %}
+    {% endif %}
+    {% include "core/album/delete.html" %}
+{% endblock %}
+{% block extra_js %}
+    <script src="{% static 'js/album.js' %}"></script>
+{% endblock %}

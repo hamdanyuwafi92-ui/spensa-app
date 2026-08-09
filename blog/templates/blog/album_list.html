@@ -1,0 +1,80 @@
+{% extends "blog/base.html" %}
+{% load static %}
+{% block title %}Galeri Album | {{ brand.name|default:"EduSpace" }}{% endblock %}
+{% block content %}
+    {% if ads_leaderboard %}
+        <div class="ads-container ads-leaderboard glass-panel reveal"
+             style="overflow: hidden">
+            <a href="{{ ads_leaderboard.link }}" target="_blank" rel="nofollow">
+                <img src="{{ ads_leaderboard.image }}"
+                     alt="{{ ads_leaderboard.name }}"
+                     class="responsive-img">
+            </a>
+        </div>
+    {% endif %}
+    <div class="page-header reveal">
+        <h1 class="page-title">Galeri Sekolah</h1>
+        <nav class="breadcrumb">
+            <a href="/">Beranda</a>
+            <span><i class="fa-solid fa-angle-right"></i></span>
+            <span>Galeri Album</span>
+        </nav>
+    </div>
+    <div class="grid">
+        {% for album in albums %}
+            <a href="{% url 'blog:album' album.slug %}"
+               class="album-card glass-panel reveal">
+                <div class="album-image-wrap">
+                    {% if album.thumbnail %}
+                        <img src="{{ album.thumbnail.url }}"
+                             alt="{{ album.title }}"
+                             class="album-image">
+                    {% else %}
+                        <img src="https://images.unsplash.com/photo-1523580494112-0205b3cb2924?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                             alt="Album"
+                             class="album-image">
+                    {% endif %}
+                    <div class="album-overlay">
+                        <span class="photo-count"><i class="fa-regular fa-image"></i> {{ album.photo_set.count }} Foto</span>
+                    </div>
+                </div>
+                <div class="album-info">
+                    <h2 class="album-title">{{ album.title }}</h2>
+                    <div class="album-meta">
+                        <span><i class="fa-regular fa-calendar"></i> {{ album.created_at|date:"d M Y" }}</span>
+                    </div>
+                </div>
+            </a>
+        {% empty %}
+            <div class="glass-panel"
+                 style="padding:40px;
+                        text-align:center;
+                        grid-column:1/-1">
+                <p>Belum ada album.</p>
+            </div>
+        {% endfor %}
+    </div>
+    {% if is_paginated %}
+        <div class="pagination">
+            {% if page_obj.has_previous %}
+                <a href="?page=1" class="page-link" title="Pertama"><i class="fa-solid fa-angles-left"></i></a>
+                <a href="?page={{ page_obj.previous_page_number }}" class="page-link"><i class="fa-solid fa-angle-left"></i></a>
+            {% endif %}
+            {% for num in page_obj.paginator.page_range %}
+                {% if num >= page_obj.number|add:"-2" and num <= page_obj.number|add:"2" %}
+                    {% if page_obj.number == num %}
+                        <span class="page-link active">{{ num }}</span>
+                    {% else %}
+                        <a href="?page={{ num }}" class="page-link">{{ num }}</a>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="page-link"><i class="fa-solid fa-angle-right"></i></a>
+                <a href="?page={{ page_obj.paginator.num_pages }}"
+                   class="page-link"
+                   title="Terakhir"><i class="fa-solid fa-angles-right"></i></a>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endblock %}

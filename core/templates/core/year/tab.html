@@ -1,0 +1,6 @@
+<div class="tabs-container">
+    <button class="tab-btn active" data-target="tabYear">Tahun</button>
+    <button class="tab-btn" data-target="tabSemester">Semester</button>
+</div>
+<div class="tab-content active" id="tabYear">{% include "core/year/table_year.html" %}</div>
+<div class="tab-content" id="tabSemester">{% include "core/year/table_semester.html" %}</div>

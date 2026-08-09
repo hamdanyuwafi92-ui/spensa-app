@@ -1,0 +1,15 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Pengaturan - {{ block.super }}{% endblock %}
+{% block heading %}{% endblock %}
+{% block content %}
+    {% include "core/config/hero.html" %}
+    {% include "core/config/tab.html" %}
+    {% if active_tab == "sync" %}
+        {% include "core/config/sync.html" %}
+    {% elif active_tab == "backup" %}
+        {% include "core/config/backup.html" %}
+    {% else %}
+        {% include "core/config/fallback.html" %}
+    {% endif %}
+{% endblock %}

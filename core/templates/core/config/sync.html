@@ -1,0 +1,12 @@
+<div class="card glass-panel">
+    <h3 class="card-title">Sinkronisasi Data Drill</h3>
+    <p>Buat semua data penilaian (formatif, sumatif, performance) untuk semua siswa dan guru berdasarkan data kelas dan mata pelajaran yang sudah ada.</p>
+    <form method="post" class="mt-24">
+        {% csrf_token %}
+        <button type="submit"
+                class="btn btn-word"
+                onclick="return confirm('Mulai sinkronisasi?')">
+            <i class="fa-solid fa-rotate"></i> Mulai Sinkronisasi
+        </button>
+    </form>
+</div>

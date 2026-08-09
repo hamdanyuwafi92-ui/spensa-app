@@ -1,0 +1,95 @@
+<div class="card glass-panel">
+    <h3 class="card-title">Backup & Restore per Model</h3>
+    <p>Pilih model untuk melakukan backup (download Excel) atau restore (upload Excel). <strong>Restore akan menghapus semua data pada model tersebut!</strong></p>
+    <div class="table-responsive mt-24">
+        <table>
+            <thead>
+                <tr>
+                    <th>Model</th>
+                    <th>Jumlah Data</th>
+                    <th>Backup</th>
+                    <th>Restore</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for model in models %}
+                    <tr>
+                        <td>
+                            <strong>{{ model.name }}</strong>
+                        </td>
+                        <td>
+                            <span style="font-weight:600; color:var(--text-muted);">{{ model.count }} baris</span>
+                        </td>
+                        <td>
+                            <form method="post"
+                                  style="display:inline"
+                                  onsubmit="showProgress(this, true)">
+                                {% csrf_token %}
+                                <input type="hidden" name="action" value="backup">
+                                <input type="hidden" name="model" value="{{ model.name }}">
+                                <button type="submit" class="btn btn-sm btn-excel submit-btn"><i class="fa-solid fa-download"></i> Download</button>
+                                <span class="progress-indicator text-excel"
+                                      style="display:none;
+                                             font-size: 14px;
+                                             margin-left: 8px">
+                                    <i class="fa-solid fa-circle-notch fa-spin"></i> Menyiapkan file...
+                                </span>
+                            </form>
+                        </td>
+                        <td>
+                            <form method="post"
+                                  enctype="multipart/form-data"
+                                  style="display:inline"
+                                  onsubmit="showProgress(this, false)">
+                                {% csrf_token %}
+                                <input type="hidden" name="action" value="restore">
+                                <input type="hidden" name="model" value="{{ model.name }}">
+                                <input type="file"
+                                       name="file"
+                                       accept=".xlsx"
+                                       required
+                                       class="form-control"
+                                       style="width:200px;
+                                              display:inline">
+                                <button type="submit" class="btn btn-sm btn-access submit-btn"><i class="fa-solid fa-upload"></i> Restore</button>
+                                <span class="progress-indicator text-access"
+                                      style="display:none;
+                                             font-size: 14px;
+                                             margin-left: 8px">
+                                    <i class="fa-solid fa-circle-notch fa-spin"></i> Merestore...
+                                </span>
+                            </form>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="4">Tidak ada model tersedia.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+function showProgress(form, isDownload) {
+    const btn = form.querySelector('.submit-btn');
+    const progress = form.querySelector('.progress-indicator');
+    
+    if (form.dataset.submitted === 'true') {
+        event.preventDefault();
+        return false;
+    }
+    
+    form.dataset.submitted = 'true';
+    btn.style.display = 'none';
+    progress.style.display = 'inline-block';
+    
+    if (isDownload) {
+        setTimeout(() => {
+            btn.style.display = 'inline-block';
+            progress.style.display = 'none';
+            form.dataset.submitted = 'false';
+        }, 3000); 
+    }
+}
+</script>

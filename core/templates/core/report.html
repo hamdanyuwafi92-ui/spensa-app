@@ -1,0 +1,11 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Report & Analytic - {{ block.super }}{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/report.css' %}">
+{% endblock %}
+{% block heading %}{% endblock %}
+{% block content %}
+    {% include "core/report/hero.html" %}
+    {% include "core/report/tab.html" %}
+{% endblock %}

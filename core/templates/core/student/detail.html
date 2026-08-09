@@ -1,0 +1,88 @@
+<div class="card glass-panel">
+    <h3 class="card-title">Detail Siswa: {{ student.fullname }}</h3>
+    <div class="grid-cards mb-24">
+        <div class="card-stat c-word glass-panel">
+            <div class="stat-info">
+                <h4>Status</h4>
+                <h2>{{ student.status }}</h2>
+            </div>
+            <div class="stat-icon">
+                <i class="fa-solid fa-info-circle"></i>
+            </div>
+        </div>
+        <div class="card-stat c-excel glass-panel">
+            <div class="stat-info">
+                <h4>Akun</h4>
+                <h2>{% if student.user and student.user.is_active %}Aktif{% else %}Nonaktif{% endif %}</h2>
+            </div>
+            <div class="stat-icon">
+                <i class="fa-solid fa-shield-halved"></i>
+            </div>
+        </div>
+    </div>
+    <div class="grid-70-30">
+        <div>
+            <h4 class="mb-12">Data Pribadi</h4>
+            <table>
+                <tr>
+                    <th>NISN</th>
+                    <td>{{ student.nisn }}</td>
+                </tr>
+                <tr>
+                    <th>NIS</th>
+                    <td>{{ student.nis|default:"-" }}</td>
+                </tr>
+                <tr>
+                    <th>Gender</th>
+                    <td>{{ student.gender }}</td>
+                </tr>
+                <tr>
+                    <th>Tempat, Tanggal Lahir</th>
+                    <td>{{ student.tempat_lahir }}, {{ student.tanggal_lahir|date:"d F Y" }}</td>
+                </tr>
+                <tr>
+                    <th>Alamat</th>
+                    <td>{{ student.alamat|linebreaksbr }}</td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <h4 class="mb-12">Keluarga & Kontak</h4>
+            <table>
+                <tr>
+                    <th>Nama Ayah</th>
+                    <td>{{ student.nama_ayah|default:"-" }}</td>
+                </tr>
+                <tr>
+                    <th>Nama Ibu</th>
+                    <td>{{ student.nama_ibu|default:"-" }}</td>
+                </tr>
+                <tr>
+                    <th>Nomor HP Ortu</th>
+                    <td>{{ student.nomor_hp_ortu }}</td>
+                </tr>
+                <tr>
+                    <th>Nomor HP</th>
+                    <td>{{ student.nomor_hp }}</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>{{ student.user.email|default:"-" }}</td>
+                </tr>
+                {% if student.photo %}
+                    <tr>
+                        <th>Foto</th>
+                        <td>
+                            <img src="{{ student.photo.url }}"
+                                 alt="Foto {{ student.fullname }}"
+                                 class="thumbnail-preview">
+                        </td>
+                    </tr>
+                {% endif %}
+            </table>
+        </div>
+    </div>
+    <div class="btn-group mt-24">
+        <a href="{% url 'core:student_list' %}" class="btn btn-access">Kembali</a>
+    </div>
+</div>

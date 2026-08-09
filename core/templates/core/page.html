@@ -1,0 +1,19 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Halaman - {{ block.super }}{% endblock %}
+{% block extra_css %}{% endblock %}
+{% block heading %}{% endblock %}
+{% block content %}
+    {% if view_mode == 'list' %}
+        {% include "core/page/hero.html" %}
+        {% include "core/page/control.html" %}
+        {% include "core/page/table.html" %}
+    {% elif view_mode == 'create' or view_mode == 'update' %}
+        {% include "core/page/form.html" %}
+    {% endif %}
+    {% include "core/page/delete.html" %}
+{% endblock %}
+{% block extra_js %}
+    {{ form.media }}
+    <script src="{% static 'js/page.js' %}"></script>
+{% endblock %}

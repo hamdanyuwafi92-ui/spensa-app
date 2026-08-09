@@ -1,0 +1,39 @@
+<div class="modal-overlay" id="modalActiveForm">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 id="modalActiveTitle">Tambah Tahun Aktif</h3>
+            <button class="modal-close" onclick="closeModal('modalActiveForm')">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <form id="activeYearForm" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="form-label">Tahun</label>
+                <select name="year" class="form-control" id="activeYearSelect">
+                    {% for year in years %}
+                        <option value="{{ year.id }}">{{ year.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Semester</label>
+                <select name="semester" class="form-control" id="activeSemesterSelect">
+                    {% for semester in semesters %}
+                        <option value="{{ semester.id }}">{{ semester.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Aktif</label>
+                <input type="checkbox" name="is_active" id="activeIsActive">
+            </div>
+            <div class="btn-group">
+                <button type="submit" class="btn btn-word">Simpan</button>
+                <button type="button"
+                        class="btn btn-access"
+                        onclick="closeModal('modalActiveForm')">Batal</button>
+            </div>
+        </form>
+    </div>
+</div>

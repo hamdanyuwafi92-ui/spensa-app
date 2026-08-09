@@ -1,0 +1,55 @@
+<h4 class="mb-12">Tahun Aktif</h4>
+<table>
+    <thead>
+        <tr>
+            <th>Tahun</th>
+            <th>Semester</th>
+            <th>Status</th>
+            <th>Aksi</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for active in active_years %}
+            <tr>
+                <td>{{ active.year.name }}</td>
+                <td>{{ active.semester.name }}</td>
+                <td>{% if active.is_active %}Aktif{% else %}Nonaktif{% endif %}</td>
+                <td>
+                    <button class="btn btn-sm btn-excel"
+                            onclick="editActiveYear({{ active.id }}, {{ active.year.id }}, {{ active.semester.id }}, '{{ active.is_active|lower }}')">
+                        <i class="fa-solid fa-pen"></i>
+                    </button>
+                    <button class="btn btn-sm btn-access"
+                            onclick="confirmDelete('{% url 'core:active_year_delete' active.id %}')">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="4">Belum ada tahun aktif.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% if active_years.has_other_pages %}
+    <div class="pagination">
+        {% if active_years.has_previous %}
+            <a href="?page=1" class="page-btn"><i class="fa-solid fa-angles-left"></i></a>
+            <a href="?page={{ active_years.previous_page_number }}" class="page-btn"><i class="fa-solid fa-angle-left"></i></a>
+        {% endif %}
+        {% for num in active_years.paginator.page_range %}
+            {% if num >= active_years.number|add:"-2" and num <= active_years.number|add:"2" %}
+                {% if active_years.number == num %}
+                    <span class="page-btn active">{{ num }}</span>
+                {% else %}
+                    <a href="?page={{ num }}" class="page-btn">{{ num }}</a>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+        {% if active_years.has_next %}
+            <a href="?page={{ active_years.next_page_number }}" class="page-btn"><i class="fa-solid fa-angle-right"></i></a>
+            <a href="?page={{ active_years.paginator.num_pages }}" class="page-btn"><i class="fa-solid fa-angles-right"></i></a>
+        {% endif %}
+    </div>
+{% endif %}

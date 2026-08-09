@@ -1,0 +1,39 @@
+<div class="modal-overlay" id="modalSubjectForm">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 id="modalSubjectTitle">Tambah Mapel</h3>
+            <button class="modal-close" onclick="closeModal('modalSubjectForm')">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <form id="subjectForm" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="form-label">Kode</label>
+                <input type="text"
+                       name="code"
+                       class="form-control"
+                       maxlength="4"
+                       required
+                       id="subjectCode">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Nama Mapel</label>
+                <select name="name" class="form-control" id="subjectNameSelect">
+                    {% for code, name in subject_choices %}
+                        <option value="{{ code }}">{{ code }} - {{ name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            {% if form.errors %}
+                <div class="form-error">{{ form.errors }}</div>
+            {% endif %}
+            <div class="btn-group">
+                <button type="submit" class="btn btn-word">Simpan</button>
+                <button type="button"
+                        class="btn btn-access"
+                        onclick="closeModal('modalSubjectForm')">Batal</button>
+            </div>
+        </form>
+    </div>
+</div>

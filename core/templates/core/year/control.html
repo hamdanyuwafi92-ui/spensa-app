@@ -1,0 +1,8 @@
+<div class="card glass-panel mb-24 flex gap-12">
+        <button class="btn btn-word"
+                onclick="openModal('modalActiveForm', '{% url 'core:active_year_create' %}')"><i class="fa-solid fa-plus"></i> Tambah Tahun Aktif</button>
+        <button class="btn btn-excel"
+                onclick="openModal('modalYearForm', '{% url 'core:year_create' %}')"><i class="fa-solid fa-plus"></i> Tambah Tahun</button>
+        <button class="btn btn-ppt"
+                onclick="openModal('modalSemesterForm', '{% url 'core:semester_create' %}')"><i class="fa-solid fa-plus"></i> Tambah Semester</button>
+</div>

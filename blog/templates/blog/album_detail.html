@@ -1,0 +1,58 @@
+{% extends "blog/base.html" %}
+{% load static %}
+{% block title %}{{ album.title }} | {{ brand.name|default:"EduSpace" }}{% endblock %}
+{% block extra_css %}
+    <style>
+    .responsive-img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+    }
+    </style>
+{% endblock %}
+{% block content %}
+    {% if ads_leaderboard %}
+        <div class="ads-container ads-leaderboard glass-panel reveal"
+             style="overflow: hidden">
+            <a href="{{ ads_leaderboard.link }}" target="_blank" rel="nofollow">
+                <img src="{{ ads_leaderboard.image }}"
+                     alt="{{ ads_leaderboard.name }}"
+                     class="responsive-img">
+            </a>
+        </div>
+    {% endif %}
+    <div class="album-header reveal">
+        <nav class="breadcrumb">
+            <a href="/">Beranda</a>
+            <span><i class="fa-solid fa-angle-right"></i></span>
+            <a href="{% url 'blog:galeri' %}">Galeri</a>
+            <span><i class="fa-solid fa-angle-right"></i></span>
+            <span>{{ album.title }}</span>
+        </nav>
+        <h1 class="album-title">{{ album.title }}</h1>
+        <p class="album-description">{{ album.caption }}</p>
+    </div>
+    <div class="photo-grid">
+        {% for photo in album.photo_set.all %}
+            <div class="photo-item glass-panel reveal" onclick="openLightbox(this)">
+                <img src="{{ photo.image }}"
+                     alt="{{ photo.caption }}"
+                     class="responsive-img">
+                <div class="photo-overlay">
+                    <i class="fa-solid fa-expand"></i>
+                </div>
+            </div>
+        {% empty %}
+            <div class="glass-panel"
+                 style="padding:40px;
+                        text-align:center;
+                        grid-column:1/-1">
+                <p>Belum ada foto dalam album ini.</p>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <span class="lightbox-close"><i class="fa-solid fa-xmark"></i></span>
+        <img class="lightbox-content" id="lightboxImg" src="" alt="Zoomed Photo">
+    </div>
+{% endblock %}

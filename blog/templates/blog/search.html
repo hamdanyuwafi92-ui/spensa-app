@@ -1,0 +1,84 @@
+{% extends "blog/base.html" %}
+{% load static %}
+{% block title %}Pencarian{% if query %}: {{ query }}{% endif %} | {{ brand.name|default:"EduSpace" }}{% endblock %}
+{% block content %}
+    {% include "blog/ads.html" %}
+    <div class="page-header reveal">
+        <h1 class="page-title"><i class="fa-solid fa-magnifying-glass"></i> Pencarian</h1>
+        <nav class="breadcrumb">
+            <a href="/">Beranda</a>
+            <span><i class="fa-solid fa-angle-right"></i></span>
+            <span>Cari</span>
+        </nav>
+    </div>
+    <div class="card glass-panel mb-24 reveal delay-1">
+        <form method="get" action="{% url 'blog:search' %}" class="flex gap-12">
+            <input type="text"
+                   name="q"
+                   value="{{ query }}"
+                   class="form-control w-full"
+                   placeholder="Cari artikel..."
+                   autofocus>
+            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-search"></i> Cari</button>
+        </form>
+    </div>
+    {% if query %}
+        <div class="page-layout">
+            <div class="content-main">
+                {% for article in articles %}
+                    <a href="{% url 'blog:single' article.slug %}"
+                       class="article-list-card glass-panel reveal">
+                        <div class="article-img-wrap">
+                            {% if article.thumbnail %}
+                                <img src="{{ article.thumbnail.url }}"
+                                     alt="{{ article.title }}"
+                                     class="article-img">
+                            {% else %}
+                                <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                                     alt="Artikel"
+                                     class="article-img">
+                            {% endif %}
+                        </div>
+                        <div class="article-body">
+                            <div class="article-meta">
+                                <span class="badge">{{ article.category.name|default:"Umum" }}</span>
+                                <span><i class="fa-regular fa-calendar"></i> {{ article.created_at|date:"d M Y" }}</span>
+                            </div>
+                            <h2 class="article-title">{{ article.title }}</h2>
+                            <p class="article-excerpt">{{ article.content|striptags|truncatechars:150 }}</p>
+                        </div>
+                    </a>
+                {% empty %}
+                    <div class="card glass-panel" style="padding: 20px; text-align: center;">
+                        <p>Tidak ditemukan artikel untuk "{{ query }}".</p>
+                    </div>
+                {% endfor %}
+                {% if is_paginated %}
+                    <div class="pagination">
+                        {% if page_obj.has_previous %}
+                            <a href="?page=1&q={{ query }}" class="page-link" title="Pertama"><i class="fa-solid fa-angles-left"></i></a>
+                            <a href="?page={{ page_obj.previous_page_number }}&q={{ query }}"
+                               class="page-link"><i class="fa-solid fa-angle-left"></i></a>
+                        {% endif %}
+                        {% for num in page_obj.paginator.page_range %}
+                            {% if num >= page_obj.number|add:"-2" and num <= page_obj.number|add:"2" %}
+                                {% if page_obj.number == num %}
+                                    <span class="page-link active">{{ num }}</span>
+                                {% else %}
+                                    <a href="?page={{ num }}&q={{ query }}" class="page-link">{{ num }}</a>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                        {% if page_obj.has_next %}
+                            <a href="?page={{ page_obj.next_page_number }}&q={{ query }}"
+                               class="page-link"><i class="fa-solid fa-angle-right"></i></a>
+                            <a href="?page={{ page_obj.paginator.num_pages }}&q={{ query }}"
+                               class="page-link"
+                               title="Terakhir"><i class="fa-solid fa-angles-right"></i></a>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

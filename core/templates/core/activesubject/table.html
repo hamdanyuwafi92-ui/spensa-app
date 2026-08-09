@@ -1,0 +1,62 @@
+<div class="card glass-panel">
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>Tahun</th>
+                    <th>Mapel</th>
+                    <th>Kelas</th>
+                    <th>Guru Pengampu</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for as in activesubjects %}
+                    <tr>
+                        <td>{{ as.activeyear }}</td>
+                        <td>{{ as.subject }}</td>
+                        <td>{{ as.classroom }}</td>
+                        <td>{{ as.teacher.fullname|default:"-" }}</td>
+                        <td>
+                            <button class="btn btn-sm btn-excel"
+                                    onclick="editActiveSubject({{ as.id }}, {{ as.activeyear.id }}, {{ as.subject.id }}, {{ as.classroom.id }}, {{ as.teacher.id|default:"null" }})">
+                                <i class="fa-solid fa-pen"></i>
+                            </button>
+                            <button class="btn btn-sm btn-access"
+                                    onclick="confirmDelete('{% url 'core:activesubject_delete' as.pk %}')">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="5">Belum ada mapel aktif.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% if is_paginated %}
+        <div class="pagination">
+            {% if page_obj.has_previous %}
+                <a href="?page=1" class="page-btn" title="Pertama"><i class="fa-solid fa-angles-left"></i></a>
+                <a href="?page={{ page_obj.previous_page_number }}" class="page-btn"><i class="fa-solid fa-angle-left"></i></a>
+            {% endif %}
+            {% for num in page_obj.paginator.page_range %}
+                {% if num >= page_obj.number|add:"-2" and num <= page_obj.number|add:"2" %}
+                    {% if page_obj.number == num %}
+                        <span class="page-btn active">{{ num }}</span>
+                    {% else %}
+                        <a href="?page={{ num }}" class="page-btn">{{ num }}</a>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="page-btn"><i class="fa-solid fa-angle-right"></i></a>
+                <a href="?page={{ page_obj.paginator.num_pages }}"
+                   class="page-btn"
+                   title="Terakhir"><i class="fa-solid fa-angles-right"></i></a>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>

@@ -1,0 +1,107 @@
+<div class="grid-cards">
+    <div class="card-stat c-word glass-panel">
+        <div class="stat-info">
+            <h4>Total Guru</h4>
+            <h2>{{ total_teachers }}</h2>
+        </div>
+        <div class="stat-icon">
+            <i class="fa-solid fa-chalkboard-teacher"></i>
+        </div>
+    </div>
+    <div class="card-stat c-excel glass-panel">
+        <div class="stat-info">
+            <h4>Total Siswa</h4>
+            <h2>{{ total_students }}</h2>
+        </div>
+        <div class="stat-icon">
+            <i class="fa-solid fa-user-graduate"></i>
+        </div>
+    </div>
+    <div class="card-stat c-ppt glass-panel">
+        <div class="stat-info">
+            <h4>Kelas Aktif</h4>
+            <h2>{{ active_classes_count }}</h2>
+        </div>
+        <div class="stat-icon">
+            <i class="fa-solid fa-users"></i>
+        </div>
+    </div>
+    <div class="card-stat c-access glass-panel">
+        <div class="stat-info">
+            <h4>Klub Aktif</h4>
+            <h2>{{ active_clubs_count }}</h2>
+        </div>
+        <div class="stat-icon">
+            <i class="fa-solid fa-futbol"></i>
+        </div>
+    </div>
+    <div class="card-stat c-word glass-panel">
+        <div class="stat-info">
+            <h4>Artikel</h4>
+            <h2>{{ total_articles }}</h2>
+        </div>
+        <div class="stat-icon">
+            <i class="fa-solid fa-newspaper"></i>
+        </div>
+    </div>
+    <div class="card-stat c-excel glass-panel">
+        <div class="stat-info">
+            <h4>Halaman</h4>
+            <h2>{{ total_pages }}</h2>
+        </div>
+        <div class="stat-icon">
+            <i class="fa-solid fa-file"></i>
+        </div>
+    </div>
+    <div class="card-stat c-ppt glass-panel">
+        <div class="stat-info">
+            <h4>Album</h4>
+            <h2>{{ total_albums }}</h2>
+        </div>
+        <div class="stat-icon">
+            <i class="fa-solid fa-images"></i>
+        </div>
+    </div>
+</div>
+<div class="card glass-panel mt-24">
+    <h3 class="card-title"><i class="fa-solid fa-link"></i> Manajemen</h3>
+    <div class="btn-group">
+        <a href="{% url 'core:teacher_list' %}" class="btn btn-word"><i class="fa-solid fa-user-plus"></i> Kelola Guru</a>
+        <a href="{% url 'core:student_list' %}" class="btn btn-excel"><i class="fa-solid fa-user-graduate"></i> Kelola Siswa</a>
+        <a href="{% url 'core:activeclass_list' %}" class="btn btn-ppt"><i class="fa-solid fa-users"></i> Kelas Aktif</a>
+        <a href="{% url 'core:activesubject_list' %}" class="btn btn-access"><i class="fa-solid fa-chalkboard"></i> Mapel Aktif</a>
+        <a href="{% url 'core:activeclub_list' %}" class="btn btn-onenote"><i class="fa-solid fa-flag"></i> Klub Aktif</a>
+    </div>
+</div>
+{% if recent_comments %}
+    <div class="card glass-panel mt-24">
+        <h3 class="card-title"><i class="fa-solid fa-comments"></i> Komentar Terbaru</h3>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Waktu</th>
+                        <th>Artikel</th>
+                        <th>Komentator</th>
+                        <th>Isi Komentar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for comment in recent_comments %}
+                        <tr>
+                            <td>{{ comment.created_at|date:"d/m/Y H:i" }}</td>
+                            <td>{{ comment.article.title|truncatechars:30 }}</td>
+                            <td>{{ comment.name }}</td>
+                            <td>{{ comment.body|truncatechars:50 }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% else %}
+    <div class="card glass-panel mt-24">
+        <h3 class="card-title"><i class="fa-solid fa-comments"></i> Komentar Terbaru</h3>
+        <p class="text-muted">Belum ada komentar.</p>
+    </div>
+{% endif %}

@@ -1,0 +1,78 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Kelola Album - {{ block.super }}{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/album.css' %}">
+{% endblock %}
+{% block heading %}{% endblock %}
+{% block content %}
+    <div class="card glass-panel">
+        <h3 class="card-title">Album: {{ album.title }}</h3>
+        <p>{{ album.caption }}</p>
+        {% if album.thumbnail %}
+            <img src="{{ album.thumbnail.url }}"
+                 alt="Cover"
+                 class="thumbnail-preview mb-16">
+        {% endif %}
+        <h4>Tambah Foto Baru</h4>
+        <form method="post" class="form-grid">
+            {% csrf_token %}
+            <div class="form-group grid-full">
+                <label class="form-label" for="id_image">URL Gambar</label>
+                {{ form.image }}
+                {{ form.image.errors }}
+            </div>
+            <div class="form-group grid-full">
+                <label class="form-label" for="id_caption">Caption</label>
+                {{ form.caption }}
+                {{ form.caption.errors }}
+            </div>
+            <div class="btn-group grid-full">
+                <button type="submit" class="btn btn-word"><i class="fa-solid fa-plus"></i> Tambah</button>
+                <a href="{% url 'core:album_list' %}" class="btn btn-access">Kembali</a>
+            </div>
+        </form>
+    </div>
+    <div class="card glass-panel mt-24">
+        <h4>Daftar Foto</h4>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Gambar</th>
+                        <th>Caption</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for photo in photos %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>
+                                <img src="{{ photo.image }}" alt="Foto" class="table-thumbnail">
+                            </td>
+                            <td>{{ photo.caption|default:"-" }}</td>
+                            <td>
+                                <form action="{% url 'core:photo_delete' photo.pk %}"
+                                      method="post"
+                                      class="inline">
+                                    {% csrf_token %}
+                                    <button type="submit"
+                                            class="btn btn-sm btn-access"
+                                            onclick="return confirm('Yakin hapus foto ini?')">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="4">Belum ada foto.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

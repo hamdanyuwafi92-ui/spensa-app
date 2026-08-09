@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        {% if school.logo %}
+            <link rel="icon" href="{{ school.logo.url }}" type="image/x-icon">
+            {% else %}
+            <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+            {% endif %}
+        {% block meta %}
+            <title>{% block title %}{{ brand.name|default:"SPENSA" }}{% endblock %}</title>
+            <meta name="description"
+                  content="{% block description %}{{ school.address|default:'Sekolah modern berbasis teknologi informasi.' }}{% endblock %}">
+            <meta name="keywords"
+                  content="{% block keywords %}sekolah, pendidikan, spensa, {{ brand.name }}{% endblock %}">
+            <meta name="author" content="{{ brand.developer|default:'SPENSA' }}">
+            <meta name="robots" content="index, follow">
+            <link rel="canonical" href="{{ request.build_absolute_uri }}">
+            <!-- Open Graph / Facebook -->
+            <meta property="og:type" content="website">
+            <meta property="og:url" content="{{ request.build_absolute_uri }}">
+            <meta property="og:title"
+                  content="{% block og_title %}{{ brand.name|default:'SPENSA' }}{% endblock %}">
+            <meta property="og:description"
+                  content="{% block og_description %}{{ school.address|default:'Sekolah modern berbasis teknologi informasi.' }}{% endblock %}">
+            <meta property="og:image" content="{% block og_image %}{% if school.logo %}{{ school.logo.url }}{% else %}{% static 'images/default-school.jpg' %}{% endif %}{% endblock %}">
+            <meta property="og:site_name" content="{{ brand.name|default:'SPENSA' }}">
+            <meta property="og:locale" content="id_ID">
+            <!-- Twitter -->
+            <meta name="twitter:card" content="summary_large_image">
+            <meta name="twitter:url" content="{{ request.build_absolute_uri }}">
+            <meta name="twitter:title"
+                  content="{% block twitter_title %}{{ brand.name|default:'SPENSA' }}{% endblock %}">
+            <meta name="twitter:description"
+                  content="{% block twitter_description %}{{ school.address|default:'Sekolah modern berbasis teknologi informasi.' }}{% endblock %}">
+            <meta name="twitter:image" content="{% block twitter_image %}{% if school.logo %}{{ school.logo.url }}{% else %}{% static 'images/default-school.jpg' %}{% endif %}{% endblock %}">
+        {% endblock %}
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+              rel="stylesheet">
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link rel="stylesheet" href="{% static 'css/blog/main.css' %}">
+        <link rel="stylesheet" href="{% static 'css/blog/component.css' %}">
+        <link rel="stylesheet" href="{% static 'css/blog/animation.css' %}">
+        {% block extra_css %}{% endblock %}
+    </head>
+    <body>
+        <div class="mesh-bg"></div>
+        {% include "blog/base/navbar.html" %}
+        <main class="container">
+            {% block heading %}{% endblock %}
+            {% block content %}{% endblock %}
+        </main>
+        {% include "blog/base/footer.html" %}
+        <script src="{% static 'js/blog/config.js' %}"></script>
+        <script src="{% static 'js/blog/engine.js' %}"></script>
+        <script src="{% static 'js/blog/component.js' %}"></script>
+        <script src="{% static 'js/blog/main.js' %}"></script>
+        {% block extra_js %}{% endblock %}
+    </body>
+</html>

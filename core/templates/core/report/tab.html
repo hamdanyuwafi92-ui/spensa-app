@@ -1,0 +1,10 @@
+<div class="card glass-panel mt-24">
+    <div class="tabs-container mb-20">
+        <button class="tab-btn active" data-target="tabActiveClass">Kelas Aktif</button>
+        <button class="tab-btn" data-target="tabActiveSubject">Mapel Aktif</button>
+        <button class="tab-btn" data-target="tabActiveClub">Klub Aktif</button>
+    </div>
+    <div class="tab-content active" id="tabActiveClass">{% include "core/report/activeclass.html" %}</div>
+    <div class="tab-content" id="tabActiveSubject">{% include "core/report/activesubject.html" %}</div>
+    <div class="tab-content" id="tabActiveClub">{% include "core/report/activeclub.html" %}</div>
+</div>

@@ -1,0 +1,121 @@
+<div class="card glass-panel">
+    <h3 class="card-title">Informasi Lengkap</h3>
+    <div class="grid-70-30">
+        <div>
+            <div class="card glass-panel mb-24">
+                <h4 class="mb-12"><i class="fa-solid fa-user mr-8"></i> Data Pribadi</h4>
+                <table>
+                    <tr>
+                        <th>Gender</th>
+                        <td>{{ profile.gender }}</td>
+                    </tr>
+                    <tr>
+                        <th>Tempat, Tanggal Lahir</th>
+                        <td>{{ profile.tempat_lahir }}, {{ profile.tanggal_lahir|date:"d F Y" }}</td>
+                    </tr>
+                    <tr>
+                        <th>Alamat</th>
+                        <td>{{ profile.alamat|linebreaksbr }}</td>
+                    </tr>
+                    <tr>
+                        <th>Nomor HP</th>
+                        <td>{{ profile.nomor_hp }}</td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>{{ profile.user.email|default:"-" }}</td>
+                    </tr>
+                </table>
+            </div>
+            {% if role == "teacher" %}
+                <div class="card glass-panel mb-24">
+                    <h4 class="mb-12"><i class="fa-solid fa-briefcase mr-8"></i> Data Kepegawaian</h4>
+                    <table>
+                        <tr>
+                            <th>NIP</th>
+                            <td>{{ profile.nip }}</td>
+                        </tr>
+                        <tr>
+                            <th>NUPTK</th>
+                            <td>{{ profile.nuptk|default:"-" }}</td>
+                        </tr>
+                        <tr>
+                            <th>Gelar Depan</th>
+                            <td>{{ profile.gelar_depan|default:"-" }}</td>
+                        </tr>
+                        <tr>
+                            <th>Gelar Belakang</th>
+                            <td>{{ profile.gelar_belakang|default:"-" }}</td>
+                        </tr>
+                    </table>
+                </div>
+            {% else %}
+                <div class="card glass-panel mb-24">
+                    <h4 class="mb-12"><i class="fa-solid fa-school mr-8"></i> Data Sekolah</h4>
+                    <table>
+                        <tr>
+                            <th>NISN</th>
+                            <td>{{ profile.nisn }}</td>
+                        </tr>
+                        <tr>
+                            <th>NIS</th>
+                            <td>{{ profile.nis|default:"-" }}</td>
+                        </tr>
+                        <tr>
+                            <th>Status</th>
+                            <td>{{ profile.status }}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="card glass-panel mb-24">
+                    <h4 class="mb-12"><i class="fa-solid fa-people-roof mr-8"></i> Keluarga</h4>
+                    <table>
+                        <tr>
+                            <th>Nama Ayah</th>
+                            <td>{{ profile.nama_ayah|default:"-" }}</td>
+                        </tr>
+                        <tr>
+                            <th>Nama Ibu</th>
+                            <td>{{ profile.nama_ibu|default:"-" }}</td>
+                        </tr>
+                        <tr>
+                            <th>Nomor HP Ortu</th>
+                            <td>{{ profile.nomor_hp_ortu }}</td>
+                        </tr>
+                    </table>
+                </div>
+            {% endif %}
+        </div>
+        <div>
+            {% if profile.photo %}
+                <div class="card glass-panel mb-24 text-center">
+                    <img src="{{ profile.photo.url }}" alt="Foto Profil" class="profile-photo">
+                    <h4 class="mt-12">{{ profile.fullname }}</h4>
+                    <p class="text-muted">{{ profile.job|default:"Siswa" }}</p>
+                </div>
+            {% else %}
+                <div class="card glass-panel mb-24 text-center">
+                    <div class="avatar-placeholder">
+                        <i class="fa-solid fa-user fa-3x"></i>
+                    </div>
+                    <h4 class="mt-12">{{ profile.fullname }}</h4>
+                    <p class="text-muted">{{ profile.job|default:"Siswa" }}</p>
+                </div>
+            {% endif %}
+            <div class="card glass-panel">
+                <h4 class="mb-12"><i class="fa-solid fa-circle-info mr-8"></i> Ringkasan</h4>
+                <table>
+                    <tr>
+                        <th>Username</th>
+                        <td>{{ profile.user.username|default:"-" }}</td>
+                    </tr>
+                    <tr><th>Status Akun</th><td>{% if profile.user.is_active %}<span class="text-excel">Aktif</span>{% else %}<span class="text-access">Nonaktif</span>{% endif %}</td></tr>
+                    <tr>
+                        <th>Terakhir Login</th>
+                        <td>{{ profile.user.last_login|date:"d/m/Y H:i"|default:"-" }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

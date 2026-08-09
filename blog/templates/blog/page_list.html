@@ -1,0 +1,96 @@
+{% extends "blog/base.html" %}
+{% load static %}
+{% block title %}Halaman | {{ brand.name|default:"EduSpace" }}{% endblock %}
+{% block content %}
+    {% if ads_leaderboard %}
+        <div class="ads-container ads-leaderboard glass-panel reveal"
+             style="overflow: hidden">
+            <a href="{{ ads_leaderboard.link }}" target="_blank" rel="nofollow">
+                <img src="{{ ads_leaderboard.image }}"
+                     alt="{{ ads_leaderboard.name }}"
+                     class="responsive-img">
+            </a>
+        </div>
+    {% endif %}
+    <div class="page-header reveal">
+        <h1 class="page-title"><i class="fa-solid fa-file-lines"></i> Halaman</h1>
+        <nav class="breadcrumb">
+            <a href="/">Beranda</a>
+            <span><i class="fa-solid fa-angle-right"></i></span>
+            <span>Halaman</span>
+        </nav>
+    </div>
+    <div class="page-layout">
+        <div class="content-main">
+            {% for page in pages %}
+                <a href="{% url 'blog:page_detail' page.slug %}"
+                   class="article-list-card glass-panel">
+                    <div class="article-img-wrap">
+                        {% if page.thumbnail %}
+                            <img src="{{ page.thumbnail.url }}"
+                                 alt="{{ page.title }}"
+                                 class="article-img">
+                        {% else %}
+                            <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                                 alt="Halaman"
+                                 class="article-img">
+                        {% endif %}
+                    </div>
+                    <div class="article-body">
+                        <div class="article-meta">
+                            <span class="badge badge-emerald">Halaman</span>
+                            <span><i class="fa-regular fa-calendar"></i> {{ page.created_at|date:"d M Y" }}</span>
+                        </div>
+                        <h2 class="article-title">{{ page.title }}</h2>
+                        <p class="article-excerpt">{{ page.content|striptags|truncatechars:150 }}</p>
+                    </div>
+                </a>
+            {% empty %}
+                <div class="glass-panel" style="padding:40px;text-align:center;">
+                    <p>Tidak ada halaman.</p>
+                </div>
+            {% endfor %}
+            {% if is_paginated %}
+                <div class="pagination">
+                    {% if page_obj.has_previous %}
+                        <a href="?page=1" class="page-link" title="Pertama"><i class="fa-solid fa-angles-left"></i></a>
+                        <a href="?page={{ page_obj.previous_page_number }}" class="page-link"><i class="fa-solid fa-angle-left"></i></a>
+                    {% endif %}
+                    {% for num in page_obj.paginator.page_range %}
+                        {% if num >= page_obj.number|add:"-2" and num <= page_obj.number|add:"2" %}
+                            {% if page_obj.number == num %}
+                                <span class="page-link active">{{ num }}</span>
+                            {% else %}
+                                <a href="?page={{ num }}" class="page-link">{{ num }}</a>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}" class="page-link"><i class="fa-solid fa-angle-right"></i></a>
+                        <a href="?page={{ page_obj.paginator.num_pages }}"
+                           class="page-link"
+                           title="Terakhir"><i class="fa-solid fa-angles-right"></i></a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+        <aside class="sidebar">
+            <div class="sidebar-sticky">
+                {% if ads_sidebar %}
+                    <div class="ads-sidebar reveal delay-2">
+                        <a href="{{ ads_sidebar.link }}"
+                           target="_blank"
+                           rel="nofollow"
+                           style="display: block">
+                            <img src="{{ ads_sidebar.image }}"
+                                 alt="{{ ads_sidebar.name }}"
+                                 style="width: 100%;
+                                        height: auto;
+                                        display: block">
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </aside>
+    </div>
+{% endblock %}

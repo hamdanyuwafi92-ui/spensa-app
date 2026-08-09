@@ -1,0 +1,52 @@
+<div class="card glass-panel">
+    <div class="flex-between mb-12">
+        <h4>{{ selected_club.club.name }} - {{ selected_club.activeyear }}</h4>
+        <button type="submit" form="performanceForm" class="btn btn-word"><i class="fa-solid fa-save"></i> Simpan</button>
+    </div>
+    <form id="performanceForm" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="club_id" value="{{ selected_club.pk }}">
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>NISN</th>
+                        <th>Nama</th>
+                        <th>JK</th>
+                        <th>Nilai</th>
+                        <th>Deskripsi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for s in students %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ s.student_nisn }}</td>
+                            <td>{{ s.student_name }}</td>
+                            <td>{{ s.student_gender }}</td>
+                            <td>
+                                <input type="number"
+                                       name="score_{{ s.id }}"
+                                       value="{{ s.score|floatformat:0 }}"
+                                       step="1"
+                                       class="form-control"
+                                       style="width:80px">
+                            </td>
+                            <td>
+                                <textarea name="desc_{{ s.id }}"
+                                          class="form-control"
+                                          style="width:100%;
+                                                 resize:vertical">{{ s.description }}</textarea>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="6">Tidak ada siswa.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </form>
+</div>

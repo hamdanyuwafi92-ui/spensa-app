@@ -1,0 +1,53 @@
+<div class="card glass-panel">
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>NISN</th>
+                    <th>Nama</th>
+                    <th>Status</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                    <tr>
+                        <td>{{ forloop.counter0|add:page_obj.start_index }}</td>
+                        <td>{{ student.nisn }}</td>
+                        <td>{{ student.fullname }}</td>
+                        <td>{{ student.status }}</td>
+                        <td>
+                            <a href="{% url 'core:student_detail' student.pk %}"
+                               class="btn btn-sm btn-onenote"
+                               title="Detail"><i class="fa-solid fa-eye"></i></a>
+                            <form action="{% url 'core:student_reset_password' student.pk %}"
+                                  method="post"
+                                  class="inline">
+                                {% csrf_token %}
+                                <button type="button"
+                                        class="btn btn-sm btn-ppt"
+                                        title="Reset Password"
+                                        onclick="confirmReset('{% url 'core:student_reset_password' student.pk %}')">
+                                    <i class="fa-solid fa-key"></i>
+                                </button>
+                            </form>
+                            <a href="{% url 'core:student_update' student.pk %}"
+                               class="btn btn-sm btn-excel"><i class="fa-solid fa-pen"></i></a>
+                            <button type="button"
+                                    class="btn btn-sm btn-access"
+                                    onclick="confirmDelete('{% url 'core:student_delete' student.pk %}')">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="5">Belum ada data siswa.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% include "core/student/pagination.html" %}
+</div>

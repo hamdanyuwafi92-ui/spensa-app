@@ -1,0 +1,13 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Sekolah - {{ block.super }}{% endblock %}
+{% block heading %}{% endblock %}
+{% block content %}
+    {% if has_data %}
+        {% include "core/school/hero.html" %}
+        {% include "core/school/detail.html" %}
+        {% include "core/school/control.html" %}
+    {% else %}
+        {% include "core/school/fallback.html" %}
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "blog/base.html" %}
+{% load static %}
+{% block title %}{{ page.title }} | {{ brand.name|default:"EduSpace" }}{% endblock %}
+{% block content %}
+    {% include "blog/ads.html" %}
+    <div class="page-header reveal">
+        <h1 class="page-title">{{ page.title }}</h1>
+        <nav class="breadcrumb">
+            <a href="/">Beranda</a>
+            <span><i class="fa-solid fa-angle-right"></i></span>
+            <a href="{% url 'blog:page' %}">Halaman</a>
+            <span><i class="fa-solid fa-angle-right"></i></span>
+            <span>{{ page.title }}</span>
+        </nav>
+    </div>
+    <article class="page-content glass-panel reveal">
+        <section class="content-section">
+            <div class="text-body">{{ page.content|striptags|linebreaks }}</div>
+        </section>
+    </article>
+{% endblock %}

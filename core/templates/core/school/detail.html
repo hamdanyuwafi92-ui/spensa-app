@@ -1,0 +1,71 @@
+<div class="card glass-panel">
+    <h3 class="card-title">Informasi Sekolah</h3>
+    <div class="grid-70-30">
+        <div>
+            <h4 class="mb-12">Identitas</h4>
+            <table>
+                <tr>
+                    <th>NPSN</th>
+                    <td>{{ school.npsn|default:"-" }}</td>
+                </tr>
+                <tr>
+                    <th>Status</th>
+                    <td>{{ school.status|default:"-" }}</td>
+                </tr>
+                <tr>
+                    <th>Jenjang</th>
+                    <td>{{ school.jenjang|default:"-" }}</td>
+                </tr>
+                <tr>
+                    <th>Akreditasi</th>
+                    <td>{{ school.akreditasi|default:"-" }}</td>
+                </tr>
+                <tr>
+                    <th>Kepala Sekolah</th>
+                    <td>{{ school.kepala_sekolah|default:"-" }}</td>
+                </tr>
+                <tr>
+                    <th>NIP Kepsek</th>
+                    <td>{{ school.nip_kepsek|default:"-" }}</td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <h4 class="mb-12">Kontak</h4>
+            <table>
+                <tr>
+                    <th>Alamat</th>
+                    <td>{{ school.address|linebreaksbr }}</td>
+                </tr>
+                <tr>
+                    <th>Telepon</th>
+                    <td>{{ school.phone|default:"-" }}</td>
+                </tr>
+                <tr>
+                    <th>Fax</th>
+                    <td>{{ school.fax|default:"-" }}</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>{{ school.email|default:"-" }}</td>
+                </tr>
+                <tr>
+                    <th>Website</th>
+                    <td>{{ school.website|default:"-" }}</td>
+                </tr>
+                <tr>
+                    <th>Kode Pos</th>
+                    <td>{{ school.kode_pos|default:"-" }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    {% if school.logo %}
+        <div class="mt-24">
+            <h4 class="mb-12">Logo</h4>
+            <img src="{{ school.logo.url }}"
+                 alt="{{ school.name }} logo"
+                 class="thumbnail-preview">
+        </div>
+    {% endif %}
+</div>

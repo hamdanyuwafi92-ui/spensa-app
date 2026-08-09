@@ -1,0 +1,98 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}{{ form_title }} - {{ block.super }}{% endblock %}
+{% block heading %}{% endblock %}
+{% block content %}
+    <div class="card glass-panel">
+        <h3 class="card-title">{{ form_title }}</h3>
+        <form method="post" enctype="multipart/form-data" class="form-grid">
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+                <div class="form-error grid-full">{{ form.non_field_errors }}</div>
+            {% endif %}
+            <h4 class="grid-full mb-12">Identitas Sekolah</h4>
+            <div class="form-group">
+                <label class="form-label">{{ form.name.label }} *</label>
+                {{ form.name }}
+                {% if form.name.errors %}<div class="form-error">{{ form.name.errors }}</div>{% endif %}
+            </div>
+            <div class="form-group">
+                <label class="form-label">{{ form.status.label }}</label>
+                {{ form.status }}
+                {% if form.status.errors %}<div class="form-error">{{ form.status.errors }}</div>{% endif %}
+            </div>
+            <div class="form-group">
+                <label class="form-label">{{ form.jenjang.label }}</label>
+                {{ form.jenjang }}
+                {% if form.jenjang.errors %}<div class="form-error">{{ form.jenjang.errors }}</div>{% endif %}
+            </div>
+            <div class="form-group">
+                <label class="form-label">{{ form.npsn.label }}</label>
+                {{ form.npsn }}
+                {% if form.npsn.errors %}<div class="form-error">{{ form.npsn.errors }}</div>{% endif %}
+            </div>
+            <div class="form-group">
+                <label class="form-label">{{ form.akreditasi.label }}</label>
+                {{ form.akreditasi }}
+                {% if form.akreditasi.errors %}<div class="form-error">{{ form.akreditasi.errors }}</div>{% endif %}
+            </div>
+            <h4 class="grid-full mb-12 mt-24">Kepala Sekolah</h4>
+            <div class="form-group">
+                <label class="form-label">{{ form.kepala_sekolah.label }}</label>
+                {{ form.kepala_sekolah }}
+                {% if form.kepala_sekolah.errors %}<div class="form-error">{{ form.kepala_sekolah.errors }}</div>{% endif %}
+            </div>
+            <div class="form-group">
+                <label class="form-label">{{ form.nip_kepsek.label }}</label>
+                {{ form.nip_kepsek }}
+                {% if form.nip_kepsek.errors %}<div class="form-error">{{ form.nip_kepsek.errors }}</div>{% endif %}
+            </div>
+            <h4 class="grid-full mb-12 mt-24">Kontak & Alamat</h4>
+            <div class="form-group">
+                <label class="form-label">{{ form.phone.label }}</label>
+                {{ form.phone }}
+                {% if form.phone.errors %}<div class="form-error">{{ form.phone.errors }}</div>{% endif %}
+            </div>
+            <div class="form-group">
+                <label class="form-label">{{ form.email.label }}</label>
+                {{ form.email }}
+                {% if form.email.errors %}<div class="form-error">{{ form.email.errors }}</div>{% endif %}
+            </div>
+            <div class="form-group">
+                <label class="form-label">{{ form.website.label }}</label>
+                {{ form.website }}
+                {% if form.website.errors %}<div class="form-error">{{ form.website.errors }}</div>{% endif %}
+            </div>
+            <div class="form-group">
+                <label class="form-label">{{ form.fax.label }}</label>
+                {{ form.fax }}
+                {% if form.fax.errors %}<div class="form-error">{{ form.fax.errors }}</div>{% endif %}
+            </div>
+            <div class="form-group">
+                <label class="form-label">{{ form.kode_pos.label }}</label>
+                {{ form.kode_pos }}
+                {% if form.kode_pos.errors %}<div class="form-error">{{ form.kode_pos.errors }}</div>{% endif %}
+            </div>
+            <div class="form-group grid-full">
+                <label class="form-label">{{ form.address.label }}</label>
+                {{ form.address }}
+                {% if form.address.errors %}<div class="form-error">{{ form.address.errors }}</div>{% endif %}
+            </div>
+            <h4 class="grid-full mb-12 mt-24">Logo Sekolah</h4>
+            <div class="form-group grid-full">
+                <label class="form-label">{{ form.logo.label }}</label>
+                {{ form.logo }}
+                {% if form.logo.errors %}<div class="form-error">{{ form.logo.errors }}</div>{% endif %}
+                {% if form.instance.logo %}
+                    <img src="{{ form.instance.logo.url }}"
+                         class="thumbnail-preview mt-12"
+                         alt="{{ form.instance.name }} logo">
+                {% endif %}
+            </div>
+            <div class="btn-group grid-full mt-24">
+                <button type="submit" class="btn btn-word"><i class="fa-solid fa-save"></i> Simpan</button>
+                <a href="{% url 'core:school_detail' %}" class="btn btn-access">Batal</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}

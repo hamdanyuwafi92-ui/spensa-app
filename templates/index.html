@@ -1,0 +1,130 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Login - {{ school.name|default:"SPENSA" }}</title>
+        <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700&display=swap"
+              rel="stylesheet">
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link rel="stylesheet" href="{% static 'css/core/main.css' %}">
+        <link rel="stylesheet" href="{% static 'css/core/component.css' %}">
+        <link rel="stylesheet" href="{% static 'css/core/animation.css' %}">
+        <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: var(--bg-body);
+        }
+        .login-container {
+            width: 100%;
+            max-width: 420px;
+            padding: 0 20px;
+        }
+        .login-card {
+            padding: 40px;
+            text-align: center;
+            animation: popIn 0.6s cubic-bezier(0.25, 1, 0.35, 1);
+        }
+        .login-logo {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            margin-bottom: 16px;
+            border-radius: var(--radius-md);
+        }
+        .login-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: var(--text-dark);
+        }
+        .login-subtitle {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 32px;
+        }
+        .login-form .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .login-form .btn {
+            width: 100%;
+            justify-content: center;
+            margin-top: 24px;
+        }
+        .login-footer {
+            margin-top: 24px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        .alert {
+            padding: 12px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .alert-error {
+            background: rgba(164, 55, 58, 0.1);
+            color: var(--access);
+        }
+        </style>
+    </head>
+    <body>
+        <div class="login-container">
+            <div class="login-card glass-panel">
+                {% if school.logo %}
+                    <img src="{{ school.logo.url }}" alt="Logo" class="login-logo">
+                {% else %}
+                    <div class="login-logo"
+                         style="background: linear-gradient(135deg, var(--word), var(--excel));
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                margin: 0 auto 16px">
+                        <i class="fa-solid fa-school" style="font-size: 36px; color: white;"></i>
+                    </div>
+                {% endif %}
+                <h1 class="login-title">{{ school.name|default:"SPENSA" }}</h1>
+                <p class="login-subtitle">Silakan masuk untuk melanjutkan</p>
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-error">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+                <form method="post" class="login-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ next }}">
+                    <div class="form-group">
+                        <label class="form-label" for="username">Username</label>
+                        <input type="text"
+                               name="username"
+                               id="username"
+                               class="form-control"
+                               placeholder="Masukkan username"
+                               required
+                               autofocus>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="password">Password</label>
+                        <input type="password"
+                               name="password"
+                               id="password"
+                               class="form-control"
+                               placeholder="Masukkan password"
+                               required>
+                    </div>
+                    <button type="submit" class="btn btn-word">
+                        <i class="fa-solid fa-right-to-bracket"></i> Masuk
+                    </button>
+                </form>
+                <div class="login-footer">&copy; {{ brand.tahun|default:"2026" }} {{ brand.name|default:"SPENSA" }}</div>
+            </div>
+        </div>
+    </body>
+</html>

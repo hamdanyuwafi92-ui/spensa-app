@@ -1,0 +1,35 @@
+<div class="modal-overlay" id="modalClubForm">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 id="modalClubTitle">Tambah Ekstrakurikuler</h3>
+            <button class="modal-close" onclick="closeModal('modalClubForm')">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <form id="clubForm" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="form-label">Kode</label>
+                <input type="text"
+                       name="code"
+                       class="form-control"
+                       maxlength="6"
+                       required
+                       id="clubCode">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Nama</label>
+                <input type="text" name="name" class="form-control" required id="clubName">
+            </div>
+            {% if form.errors %}
+                <div class="form-error">{{ form.errors }}</div>
+            {% endif %}
+            <div class="btn-group">
+                <button type="submit" class="btn btn-word">Simpan</button>
+                <button type="button"
+                        class="btn btn-access"
+                        onclick="closeModal('modalClubForm')">Batal</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,69 @@
+<div class="grid-cards">
+    <div class="card-stat c-word glass-panel">
+        <div class="stat-info">
+            <h4>Rata-rata Nilai</h4>
+            <h2>{{ siswa_avg_score|floatformat:1 }}</h2>
+        </div>
+        <div class="stat-icon">
+            <i class="fa-solid fa-star"></i>
+        </div>
+    </div>
+    <div class="card-stat c-excel glass-panel">
+        <div class="stat-info">
+            <h4>Mata Pelajaran</h4>
+            <h2>{{ siswa_subject_count }}</h2>
+        </div>
+        <div class="stat-icon">
+            <i class="fa-solid fa-book"></i>
+        </div>
+    </div>
+    <div class="card-stat c-ppt glass-panel">
+        <div class="stat-info">
+            <h4>Klub Diikuti</h4>
+            <h2>{{ siswa_clubs_count }}</h2>
+        </div>
+        <div class="stat-icon">
+            <i class="fa-solid fa-futbol"></i>
+        </div>
+    </div>
+</div>
+<div class="card glass-panel mt-24">
+    <h3 class="card-title"><i class="fa-solid fa-link"></i> Akses Cepat</h3>
+    <div class="btn-group">
+        <a href="{% url 'core:loglearning_list' %}" class="btn btn-word"><i class="fa-solid fa-chart-bar"></i> Riwayat Nilai</a>
+        <a href="{% url 'core:profile' %}" class="btn btn-excel"><i class="fa-solid fa-user"></i> Profil</a>
+        <a href="{% url 'core:article_list' %}" class="btn btn-ppt"><i class="fa-solid fa-newspaper"></i> Artikel</a>
+    </div>
+</div>
+{% if recent_comments %}
+    <div class="card glass-panel mt-24">
+        <h3 class="card-title"><i class="fa-solid fa-comments"></i> Komentar Terbaru</h3>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Waktu</th>
+                        <th>Artikel</th>
+                        <th>Komentator</th>
+                        <th>Isi Komentar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for comment in recent_comments %}
+                        <tr>
+                            <td>{{ comment.created_at|date:"d/m/Y H:i" }}</td>
+                            <td>{{ comment.article.title|truncatechars:30 }}</td>
+                            <td>{{ comment.name }}</td>
+                            <td>{{ comment.body|truncatechars:50 }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% else %}
+    <div class="card glass-panel mt-24">
+        <h3 class="card-title"><i class="fa-solid fa-comments"></i> Komentar Terbaru</h3>
+        <p class="text-muted">Belum ada komentar.</p>
+    </div>
+{% endif %}

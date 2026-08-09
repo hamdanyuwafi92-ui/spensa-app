@@ -1,0 +1,36 @@
+<div class="card glass-panel">
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>NISN</th>
+                    <th>Nama</th>
+                    <th>Kelas</th>
+                    <th>Rata-rata</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for s in students %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ s.nisn }}</td>
+                        <td>{{ s.name }}</td>
+                        <td>{{ s.classroom }}</td>
+                        <td><span class="badge badge-blue">{{ s.average }}</span></td>
+                        <td>
+                            <a href="{% url 'core:transcript_pdf' s.id %}?year_id={{ request.GET.year_id }}"
+                               class="btn btn-sm btn-ppt"
+                               target="_blank"><i class="fa-solid fa-file-pdf"></i> PDF</a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="6">Tidak ada siswa.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

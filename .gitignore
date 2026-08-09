@@ -1,0 +1,55 @@
+# Virtual environment
+env/
+.venv/
+venv/
+
+# Django
+*.log
+*.pot
+*.pyc
+*.pyo
+__pycache__/
+db.sqlite3
+media/
+staticfiles/
+
+# PyInstaller
+bin/
+dist/
+build/
+*.spec.bak
+
+# Python
+*.egg-info/
+dist/
+build/
+*.egg
+*.whl
+*.djlint
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Database Extras
+db.sqlite3-journal
+
+# Testing
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Frontend / Node
+node_modules/
+npm-debug.log

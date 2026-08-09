@@ -1,0 +1,14 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Siswa - {{ block.super }}{% endblock %}
+{% block heading %}{% endblock %}
+{% block content %}
+    {% include "core/student/hero.html" %}
+    {% include "core/student/control.html" %}
+    {% include "core/student/table.html" %}
+    {% include "core/student/delete.html" %}
+    {% include "core/student/reset_password.html" %}
+{% endblock %}
+{% block extra_js %}
+    <script src="{% static 'js/student.js' %}"></script>
+{% endblock %}

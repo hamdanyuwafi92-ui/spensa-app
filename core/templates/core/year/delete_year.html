@@ -1,0 +1,20 @@
+<div class="modal-overlay" id="deleteYearModal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3>Konfirmasi Hapus Tahun</h3>
+            <button class="modal-close" onclick="closeModal('deleteYearModal')">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <form id="deleteYearForm" method="post">
+            {% csrf_token %}
+            <p>Yakin ingin menghapus tahun ini?</p>
+            <div class="btn-group" style="justify-content: flex-end;">
+                <button type="button"
+                        class="btn btn-access"
+                        onclick="closeModal('deleteYearModal')">Batal</button>
+                <button type="submit" class="btn btn-word">Hapus</button>
+            </div>
+        </form>
+    </div>
+</div>

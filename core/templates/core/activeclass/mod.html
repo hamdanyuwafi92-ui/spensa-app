@@ -1,0 +1,55 @@
+<div class="modal-overlay" id="modalActiveClassForm">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 id="modalActiveClassTitle">Tambah Kelas Aktif</h3>
+            <button class="modal-close" onclick="closeModal('modalActiveClassForm')">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <form id="activeClassForm" method="post">
+            {% csrf_token %}
+            <input type="hidden"
+                   name="activeyear"
+                   id="id_activeyear"
+                   value="{{ active_year.id|default:'' }}">
+            <div class="form-group">
+                <label class="form-label">Kelas</label>
+                <select name="classroom" class="form-control" id="id_classroom" required>
+                    <option value="">---------</option>
+                    {% for classroom in classrooms %}
+                        <option value="{{ classroom.id }}">{{ classroom }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Kapasitas</label>
+                <input type="number"
+                       name="capacity"
+                       class="form-control"
+                       id="id_capacity"
+                       min="0"
+                       max="35"
+                       value="25"
+                       required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Wali Kelas</label>
+                <select name="teacher" class="form-control" id="id_teacher">
+                    <option value="">---------</option>
+                    {% for teacher in teachers %}
+                        <option value="{{ teacher.id }}">{{ teacher.fullname }} ({{ teacher.nip }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+            {% if form.errors %}
+                <div class="form-error">{{ form.errors }}</div>
+            {% endif %}
+            <div class="btn-group">
+                <button type="submit" class="btn btn-word">Simpan</button>
+                <button type="button"
+                        class="btn btn-access"
+                        onclick="closeModal('modalActiveClassForm')">Batal</button>
+            </div>
+        </form>
+    </div>
+</div>

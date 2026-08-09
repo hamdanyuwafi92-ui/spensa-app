@@ -1,0 +1,27 @@
+<div class="table-responsive">
+    <table>
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Ekstrakurikuler</th>
+                <th>Guru Pembina</th>
+                <th>Total Siswa</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ac in active_clubs %}
+                <tr>
+                    <td><span class="badge badge-light">{{ forloop.counter }}</span></td>
+                    <td><i class="fa-solid fa-futbol icon-indicator"
+   style="color: var(--powerpoint)"></i> <strong>{{ ac.club.name }}</strong></td>
+                    <td><i class="fa-solid fa-user icon-indicator" style="color: var(--word);"></i> {{ ac.teacher.fullname|default:"-" }}</td>
+                    <td><span class="badge badge-green">{{ ac.total_students }}</span></td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center">Belum ada data klub aktif.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

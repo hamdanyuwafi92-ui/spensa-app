@@ -1,0 +1,19 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Tahun Ajaran - {{ block.super }}{% endblock %}
+{% block extra_css %}{% endblock %}
+{% block heading %}{% endblock %}
+{% block content %}
+    {% include "core/year/hero.html" %}
+    {% include "core/year/control.html" %}
+    {% include "core/year/container.html" %}
+    {% include "core/year/form_year.html" %}
+    {% include "core/year/form_semester.html" %}
+    {% include "core/year/form_active.html" %}
+    {% include "core/year/delete_year.html" %}
+    {% include "core/year/delete_semester.html" %}
+    {% include "core/year/delete_active.html" %}
+{% endblock %}
+{% block extra_js %}
+    <script src="{% static 'js/year.js' %}"></script>
+{% endblock %}

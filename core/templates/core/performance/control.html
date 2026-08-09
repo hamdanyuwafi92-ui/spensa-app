@@ -1,0 +1,13 @@
+<div class="card glass-panel mb-24 flex gap-12">
+    <form method="get" class="flex gap-12 w-full">
+        <select name="club_id" class="form-control" onchange="this.form.submit()">
+            <option value="">-- Pilih Klub --</option>
+            {% for club in clubs %}
+                <option value="{{ club.pk }}"
+                        {% if selected_club.pk == club.pk %}selected{% endif %}>
+                    {{ club.club.name }} ({{ club.activeyear }})
+                </option>
+            {% endfor %}
+        </select>
+    </form>
+</div>

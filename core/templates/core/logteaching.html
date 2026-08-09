@@ -1,0 +1,15 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Riwayat Mengajar - {{ block.super }}{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/report.css' %}">
+{% endblock %}
+{% block heading %}{% endblock %}
+{% block content %}
+    {% if page_obj %}
+        {% include "core/logteaching/hero.html" %}
+        {% include "core/logteaching/table.html" %}
+    {% else %}
+        {% include "core/logteaching/fallback.html" %}
+    {% endif %}
+{% endblock %}

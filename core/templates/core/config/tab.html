@@ -1,0 +1,8 @@
+<div class="card glass-panel mb-24">
+    <div class="tabs-container mb-20">
+        <a href="{% url 'core:sync' %}"
+           class="tab-btn {% if active_tab == 'sync' %}active{% endif %}">Sinkronisasi</a>
+        <a href="{% url 'core:backup' %}"
+           class="tab-btn {% if active_tab == 'backup' %}active{% endif %}">Backup & Restore</a>
+    </div>
+</div>

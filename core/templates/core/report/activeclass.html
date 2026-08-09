@@ -1,0 +1,42 @@
+<div class="table-responsive">
+    <table>
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Nama Kelas</th>
+                <th>Wali Kelas</th>
+                <th>Total Siswa</th>
+                <th>Laki-laki</th>
+                <th>Perempuan</th>
+                <th>Status Aktif</th>
+                <th>Kapasitas</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ac in active_classes %}
+                <tr>
+                    <td><span class="badge badge-light">{{ forloop.counter }}</span></td>
+                    <td><i class="fa-solid fa-door-open icon-indicator"
+   style="color: var(--word)"></i> <strong>{{ ac.classroom }}</strong></td>
+                    <td><i class="fa-solid fa-user-tie icon-indicator"
+   style="color: var(--excel)"></i> {{ ac.teacher.fullname|default:"-" }}</td>
+                    <td><span class="badge badge-blue">{{ ac.total_students }}</span></td>
+                    <td><span class="badge badge-green">{{ ac.male_students }}</span></td>
+                    <td><span class="badge badge-purple">{{ ac.female_students }}</span></td>
+                    <td>
+                        {% if ac.active_students > 0 %}
+                            <span class="badge badge-green">{{ ac.active_students }}</span>
+                        {% else %}
+                            <span class="badge badge-light">{{ ac.active_students }}</span>
+                        {% endif %}
+                    </td>
+                    <td><span class="badge badge-orange">{{ ac.capacity }}</span></td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="8" class="text-center">Belum ada data kelas aktif.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

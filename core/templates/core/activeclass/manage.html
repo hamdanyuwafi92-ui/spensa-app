@@ -1,0 +1,97 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Kelola Siswa - {{ block.super }}{% endblock %}
+{% block extra_css %}
+    <style>
+        .student-search-wrapper { position: relative; }
+        .student-search-results {
+            position: absolute; top: 100%; left: 0; width: 100%;
+            background: white; border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-md); max-height: 200px; overflow-y: auto;
+            z-index: 10; display: none;
+        }
+        .student-search-results.active { display: block; }
+        .ss-item {
+            padding: 10px 14px; border-bottom: 1px solid #eee; cursor: pointer;
+            transition: 0.2s;
+        }
+        .ss-item:hover { background: var(--bg-body); color: var(--word); }
+    </style>
+{% endblock %}
+{% block heading %}{% endblock %}
+{% block content %}
+    <div class="card glass-panel mb-24">
+        <h3 class="card-title">Kelas: {{ activeclass.classroom }} ({{ activeclass.activeyear }})</h3>
+        <p>Wali Kelas: {{ activeclass.teacher.fullname|default:"-" }} | Kapasitas: {{ total_students }}/{{ activeclass.capacity }}</p>
+    </div>
+    <div class="card glass-panel mb-24">
+        <h4>Tambah Siswa</h4>
+        <form method="post" id="addStudentForm">
+            {% csrf_token %}
+            <div class="form-group student-search-wrapper">
+                <label class="form-label">Cari Siswa</label>
+                <input type="text"
+                       id="studentSearchInput"
+                       class="form-control"
+                       placeholder="Ketik nama atau NISN..."
+                       autocomplete="off">
+                <div id="studentSearchResults" class="student-search-results"></div>
+                <input type="hidden" name="student" id="selectedStudent">
+            </div>
+            <div class="btn-group">
+                <button type="submit" class="btn btn-word" id="submitStudentBtn" disabled><i class="fa-solid fa-plus"></i> Tambahkan</button>
+            </div>
+        </form>
+    </div>
+    <div class="card glass-panel">
+        <h4>Daftar Siswa</h4>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>NISN</th>
+                        <th>Nama</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                        <tr>
+                            <td>{{ forloop.counter0|add:students.start_index }}</td>
+                            <td>{{ student.nisn }}</td>
+                            <td>{{ student.fullname }}</td>
+                            <td>
+                                <form action="{% url 'core:activeclass_student_delete' student.activeclassstudent_set.first.pk %}"
+                                      method="post"
+                                      class="inline">
+                                    {% csrf_token %}
+                                    <button type="submit"
+                                            class="btn btn-sm btn-access"
+                                            onclick="return confirm('Yakin hapus siswa ini?')">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="4">Belum ada siswa.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% include "core/activeclass/pagination.html" with page_obj=students %}
+    </div>
+{% endblock %}
+{% block extra_js %}
+    <script>
+        var allStudents = [
+            {% for s in all_students %}
+                { id: {{ s.id }}, nisn: "{{ s.nisn }}", name: "{{ s.fullname }}" },
+            {% endfor %}
+        ];
+    </script>
+    <script src="{% static 'js/activeclass.js' %}"></script>
+{% endblock %}

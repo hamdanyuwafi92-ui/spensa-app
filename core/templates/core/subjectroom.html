@@ -1,0 +1,30 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Kelas & Mapel - {{ block.super }}{% endblock %}
+{% block extra_css %}{% endblock %}
+{% block heading %}{% endblock %}
+{% block content %}
+    {% include "core/subjectroom/hero.html" %}
+    {% include "core/subjectroom/control.html" %}
+    {% include "core/subjectroom/tab.html" %}
+    {% include "core/subjectroom/form_classroom.html" %}
+    {% include "core/subjectroom/form_subject.html" %}
+    {% include "core/subjectroom/delete_classroom.html" %}
+    {% include "core/subjectroom/delete_subject.html" %}
+{% endblock %}
+{% block extra_js %}
+    <script src="{% static 'js/subjectroom.js' %}"></script>
+    {% if form_type == "subject" %}
+        <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        openModal('modalSubjectForm');
+    });
+        </script>
+    {% elif form_type == "classroom" %}
+        <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        openModal('modalClassroomForm');
+    });
+        </script>
+    {% endif %}
+{% endblock %}

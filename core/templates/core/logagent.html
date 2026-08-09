@@ -1,0 +1,15 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Riwayat Pelatih - {{ block.super }}{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/report.css' %}">
+{% endblock %}
+{% block heading %}{% endblock %}
+{% block content %}
+    {% if data %}
+        {% include "core/logagent/hero.html" %}
+        {% include "core/logagent/table.html" %}
+    {% else %}
+        {% include "core/logagent/fallback.html" %}
+    {% endif %}
+{% endblock %}

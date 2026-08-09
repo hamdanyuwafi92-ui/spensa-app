@@ -1,0 +1,23 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Penilaian Ekstrakurikuler - {{ block.super }}{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/report.css' %}">
+{% endblock %}
+{% block heading %}{% endblock %}
+{% block content %}
+    {% if clubs %}
+        {% include "core/performance/hero.html" %}
+        {% include "core/performance/control.html" %}
+        {% if students %}
+            {% include "core/performance/table.html" %}
+        {% elif selected_club %}
+            <p class="text-center">Tidak ada siswa di klub ini.</p>
+        {% endif %}
+    {% else %}
+        {% include "core/performance/fallback.html" %}
+    {% endif %}
+{% endblock %}
+{% block extra_js %}
+    <script src="{% static 'js/performance.js' %}"></script>
+{% endblock %}

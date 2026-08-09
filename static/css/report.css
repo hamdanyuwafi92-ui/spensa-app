@@ -1,0 +1,74 @@
+.table-responsive table th {
+    background: rgba(43, 87, 154, 0.08);
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.table-responsive table tbody tr:nth-child(even) {
+    background: rgba(0, 0, 0, 0.02);
+}
+
+.table-responsive table tbody tr:hover {
+    background: rgba(43, 87, 154, 0.05);
+}
+
+.icon-indicator {
+    font-size: 16px;
+    margin-right: 8px;
+    width: 20px;
+    text-align: center;
+}
+
+.badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    min-width: 36px;
+    text-align: center;
+}
+
+.badge-blue {
+    background: rgba(43, 87, 154, 0.15);
+    color: var(--word);
+}
+
+.badge-green {
+    background: rgba(33, 115, 70, 0.15);
+    color: var(--excel);
+}
+
+.badge-orange {
+    background: rgba(210, 71, 38, 0.15);
+    color: var(--powerpoint);
+}
+
+.badge-purple {
+    background: rgba(128, 57, 123, 0.15);
+    color: var(--onenote);
+}
+
+.badge-red {
+    background: rgba(164, 55, 58, 0.15);
+    color: var(--access);
+}
+
+.badge-light {
+    background: rgba(0, 0, 0, 0.05);
+    color: var(--text-muted);
+}
+
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}

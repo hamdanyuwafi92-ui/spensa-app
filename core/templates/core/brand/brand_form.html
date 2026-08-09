@@ -1,0 +1,77 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}{{ form_title }} - {{ block.super }}{% endblock %}
+{% block heading %}{% endblock %}
+{% block content %}
+    <div class="card glass-panel">
+        <h3 class="card-title">{{ form_title }}</h3>
+        <form method="post" enctype="multipart/form-data" class="form-grid">
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+                <div class="form-error grid-full">{{ form.non_field_errors }}</div>
+            {% endif %}
+            <h4 class="grid-full mb-12">Informasi Brand</h4>
+            <div class="form-group">
+                <label class="form-label">{{ form.name.label }} *</label>
+                {{ form.name }}
+                {% if form.name.errors %}<div class="form-error">{{ form.name.errors }}</div>{% endif %}
+            </div>
+            <div class="form-group">
+                <label class="form-label">{{ form.version.label }}</label>
+                {{ form.version }}
+                {% if form.version.errors %}<div class="form-error">{{ form.version.errors }}</div>{% endif %}
+            </div>
+            <div class="form-group">
+                <label class="form-label">{{ form.tahun.label }}</label>
+                {{ form.tahun }}
+                {% if form.tahun.errors %}<div class="form-error">{{ form.tahun.errors }}</div>{% endif %}
+            </div>
+            <div class="form-group">
+                <label class="form-label">{{ form.developer.label }}</label>
+                {{ form.developer }}
+                {% if form.developer.errors %}<div class="form-error">{{ form.developer.errors }}</div>{% endif %}
+            </div>
+            <div class="form-group grid-full">
+                <label class="form-label">{{ form.description.label }}</label>
+                {{ form.description }}
+                {% if form.description.errors %}<div class="form-error">{{ form.description.errors }}</div>{% endif %}
+            </div>
+            <h4 class="grid-full mb-12 mt-24">Media Sosial</h4>
+            <div class="form-group grid-full">
+                <label class="form-label">{{ form.instagram.label }}</label>
+                {{ form.instagram }}
+                {% if form.instagram.errors %}<div class="form-error">{{ form.instagram.errors }}</div>{% endif %}
+            </div>
+            <div class="form-group grid-full">
+                <label class="form-label">{{ form.youtube.label }}</label>
+                {{ form.youtube }}
+                {% if form.youtube.errors %}<div class="form-error">{{ form.youtube.errors }}</div>{% endif %}
+            </div>
+            <div class="form-group grid-full">
+                <label class="form-label">{{ form.tiktok.label }}</label>
+                {{ form.tiktok }}
+                {% if form.tiktok.errors %}<div class="form-error">{{ form.tiktok.errors }}</div>{% endif %}
+            </div>
+            <div class="form-group grid-full">
+                <label class="form-label">{{ form.facebook.label }}</label>
+                {{ form.facebook }}
+                {% if form.facebook.errors %}<div class="form-error">{{ form.facebook.errors }}</div>{% endif %}
+            </div>
+            <h4 class="grid-full mb-12 mt-24">Logo Brand</h4>
+            <div class="form-group grid-full">
+                <label class="form-label">{{ form.logo.label }}</label>
+                {{ form.logo }}
+                {% if form.logo.errors %}<div class="form-error">{{ form.logo.errors }}</div>{% endif %}
+                {% if form.instance.logo %}
+                    <img src="{{ form.instance.logo.url }}"
+                         alt="Brand logo"
+                         class="thumbnail-preview mt-12">
+                {% endif %}
+            </div>
+            <div class="btn-group grid-full mt-24">
+                <button type="submit" class="btn btn-word"><i class="fa-solid fa-save"></i> Simpan</button>
+                <a href="{% url 'core:brand_detail' %}" class="btn btn-access">Batal</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}

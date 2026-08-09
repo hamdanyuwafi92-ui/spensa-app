@@ -1,0 +1,63 @@
+<div class="card glass-panel">
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Judul</th>
+                    <th>Penulis</th>
+                    <th>Dibuat</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for page in pages %}
+                    <tr>
+                        <td>{{ forloop.counter0|add:page_obj.start_index }}</td>
+                        <td>{{ page.title }}</td>
+                        <td>{{ page.created_by.get_full_name|default:page.created_by.username }}</td>
+                        <td>{{ page.created_at|date:"d/m/Y H:i" }}</td>
+                        <td>
+                            {% if page.created_by == request.user %}
+                                <a href="{% url 'core:page_update' page.slug %}"
+                                   class="btn btn-sm btn-excel"><i class="fa-solid fa-pen"></i></a>
+                                <button type="button"
+                                        class="btn btn-sm btn-access"
+                                        onclick="confirmDelete('{% url 'core:page_delete' page.slug %}')">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="5">Belum ada halaman.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% if is_paginated %}
+        <div class="pagination">
+            {% if page_obj.has_previous %}
+                <a href="?page=1" class="page-btn" title="Pertama"><i class="fa-solid fa-angles-left"></i></a>
+                <a href="?page={{ page_obj.previous_page_number }}" class="page-btn"><i class="fa-solid fa-angle-left"></i></a>
+            {% endif %}
+            {% for num in page_obj.paginator.page_range %}
+                {% if num >= page_obj.number|add:"-2" and num <= page_obj.number|add:"2" %}
+                    {% if page_obj.number == num %}
+                        <span class="page-btn active">{{ num }}</span>
+                    {% else %}
+                        <a href="?page={{ num }}" class="page-btn">{{ num }}</a>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="page-btn"><i class="fa-solid fa-angle-right"></i></a>
+                <a href="?page={{ page_obj.paginator.num_pages }}"
+                   class="page-btn"
+                   title="Terakhir"><i class="fa-solid fa-angles-right"></i></a>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>

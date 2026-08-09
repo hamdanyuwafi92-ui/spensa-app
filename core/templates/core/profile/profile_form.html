@@ -1,0 +1,116 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}{{ form_title }} - {{ block.super }}{% endblock %}
+{% block heading %}{% endblock %}
+{% block content %}
+    <div class="card glass-panel">
+        <h3 class="card-title">{{ form_title }}</h3>
+        <form method="post" enctype="multipart/form-data" class="form-grid">
+            {% csrf_token %}
+            <h4 class="grid-full mb-12">Informasi Akun</h4>
+            <div class="form-group">
+                <label class="form-label">{{ form.first_name.label }} *</label>
+                {{ form.first_name }}
+                {% if form.first_name.errors %}<div class="form-error">{{ form.first_name.errors }}</div>{% endif %}
+            </div>
+            <div class="form-group">
+                <label class="form-label">{{ form.last_name.label }} *</label>
+                {{ form.last_name }}
+                {% if form.last_name.errors %}<div class="form-error">{{ form.last_name.errors }}</div>{% endif %}
+            </div>
+            <div class="form-group">
+                <label class="form-label">{{ form.email.label }}</label>
+                {{ form.email }}
+                {% if form.email.errors %}<div class="form-error">{{ form.email.errors }}</div>{% endif %}
+            </div>
+            <h4 class="grid-full mb-12 mt-24">Ganti Password</h4>
+            <div class="form-group">
+                <label class="form-label">{{ form.password1.label }}</label>
+                {{ form.password1 }}
+                {% if form.password1.errors %}<div class="form-error">{{ form.password1.errors }}</div>{% endif %}
+            </div>
+            <div class="form-group">
+                <label class="form-label">{{ form.password2.label }}</label>
+                {{ form.password2 }}
+                {% if form.password2.errors %}<div class="form-error">{{ form.password2.errors }}</div>{% endif %}
+            </div>
+            {% if role == "teacher" %}
+                <h4 class="grid-full mb-12 mt-24">Data Kepegawaian</h4>
+                <div class="form-group">
+                    <label class="form-label">{{ form.nip.label }}</label>
+                    {{ form.nip }}
+                </div>
+                <div class="form-group">
+                    <label class="form-label">{{ form.nuptk.label }}</label>
+                    {{ form.nuptk }}
+                </div>
+                <div class="form-group">
+                    <label class="form-label">{{ form.gelar_depan.label }}</label>
+                    {{ form.gelar_depan }}
+                </div>
+                <div class="form-group">
+                    <label class="form-label">{{ form.gelar_belakang.label }}</label>
+                    {{ form.gelar_belakang }}
+                </div>
+            {% else %}
+                <h4 class="grid-full mb-12 mt-24">Data Sekolah</h4>
+                <div class="form-group">
+                    <label class="form-label">{{ form.nisn.label }}</label>
+                    {{ form.nisn }}
+                </div>
+                <div class="form-group">
+                    <label class="form-label">{{ form.nis.label }}</label>
+                    {{ form.nis }}
+                </div>
+                <h4 class="grid-full mb-12 mt-24">Keluarga</h4>
+                <div class="form-group">
+                    <label class="form-label">{{ form.nama_ayah.label }}</label>
+                    {{ form.nama_ayah }}
+                </div>
+                <div class="form-group">
+                    <label class="form-label">{{ form.nama_ibu.label }}</label>
+                    {{ form.nama_ibu }}
+                </div>
+                <div class="form-group">
+                    <label class="form-label">{{ form.nomor_hp_ortu.label }}</label>
+                    {{ form.nomor_hp_ortu }}
+                </div>
+            {% endif %}
+            <h4 class="grid-full mb-12 mt-24">Data Pribadi</h4>
+            <div class="form-group">
+                <label class="form-label">{{ form.gender.label }}</label>
+                {{ form.gender }}
+            </div>
+            <div class="form-group">
+                <label class="form-label">{{ form.tempat_lahir.label }}</label>
+                {{ form.tempat_lahir }}
+            </div>
+            <div class="form-group">
+                <label class="form-label">{{ form.tanggal_lahir.label }}</label>
+                {{ form.tanggal_lahir }}
+            </div>
+            <div class="form-group grid-full">
+                <label class="form-label">{{ form.alamat.label }}</label>
+                {{ form.alamat }}
+            </div>
+            <div class="form-group">
+                <label class="form-label">{{ form.nomor_hp.label }}</label>
+                {{ form.nomor_hp }}
+            </div>
+            <h4 class="grid-full mb-12 mt-24">Foto Profil</h4>
+            <div class="form-group grid-full">
+                <label class="form-label">{{ form.photo.label }}</label>
+                {{ form.photo }}
+                {% if form.instance.photo %}
+                    <img src="{{ form.instance.photo.url }}"
+                         alt="Foto Profil"
+                         class="thumbnail-preview mt-12">
+                {% endif %}
+            </div>
+            <div class="btn-group grid-full mt-24">
+                <button type="submit" class="btn btn-word"><i class="fa-solid fa-save"></i> Simpan</button>
+                <a href="{% url 'core:profile' %}" class="btn btn-access">Batal</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}

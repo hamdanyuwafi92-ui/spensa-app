@@ -1,0 +1,29 @@
+<table>
+    <thead>
+        <tr>
+            <th>Nama Tahun</th>
+            <th>Aksi</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for year in years %}
+            <tr>
+                <td>{{ year.name }}</td>
+                <td>
+                    <button class="btn btn-sm btn-excel"
+                            onclick="editYear({{ year.id }}, '{{ year.name }}')">
+                        <i class="fa-solid fa-pen"></i>
+                    </button>
+                    <button class="btn btn-sm btn-access"
+                            onclick="confirmDelete('{% url 'core:year_delete' year.id %}')">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="2">Belum ada tahun.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

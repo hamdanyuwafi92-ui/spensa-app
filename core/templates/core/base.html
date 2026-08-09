@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}SPENSA{% endblock %}</title>
+        <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700&display=swap"
+              rel="stylesheet">
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link rel="stylesheet" href="{% static 'css/core/main.css' %}">
+        <link rel="stylesheet" href="{% static 'css/core/component.css' %}">
+        <link rel="stylesheet" href="{% static 'css/core/animation.css' %}">
+        {% block extra_css %}{% endblock %}
+    </head>
+    <body>
+        {% include "core/base/toast.html" %}
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+        <div class="layout-grid">
+            {% include "core/base/sidebar.html" %}
+            <div class="main-wrapper">
+                {% include "core/base/navbar.html" %}
+                <main class="content anim-group">
+                    {% block heading %}{% endblock %}
+                    {% block content %}{% endblock %}
+                </main>
+                {% include "core/base/footer.html" %}
+            </div>
+        </div>
+        <div class="modal-overlay" id="customModal">
+            <div class="modal">
+                <div class="modal-header">
+                    <h3>{% block modal_title %}Informasi Sistem{% endblock %}</h3>
+                    <button class="modal-close" id="closeModal">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {% block modal %}{% endblock %}
+                </div>
+            </div>
+        </div>
+        <script src="{% static 'js/core/config.js' %}"></script>
+        <script src="{% static 'js/core/engine.js' %}"></script>
+        <script src="{% static 'js/core/toast.js' %}"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                {% if messages %}
+                {% for message in messages %}
+                showToast(
+                    "{% if message.tags == 'success' %}Sukses{% elif message.tags == 'error' %}Error{% else %}Info{% endif %}",
+                    "{{ message|escapejs }}",
+                    "{% if message.tags == 'success' %}fa-solid fa-circle-check{% elif message.tags == 'error' %}fa-solid fa-circle-exclamation{% else %}fa-solid fa-info-circle{% endif %}",
+                    "{% if message.tags == 'success' %}--word{% elif message.tags == 'error' %}--access{% else %}--word{% endif %}"
+                    );
+                    {% endfor %}
+                    {% endif %}
+                });
+        </script>
+        <script src="{% static 'js/core/main.js' %}"></script>
+        {% block extra_js %}{% endblock %}
+    </body>
+</html>

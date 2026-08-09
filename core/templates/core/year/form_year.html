@@ -1,0 +1,23 @@
+<div class="modal-overlay" id="modalYearForm">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 id="modalYearTitle">Tambah Tahun</h3>
+            <button class="modal-close" onclick="closeModal('modalYearForm')">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <form id="yearForm" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="form-label">Nama Tahun</label>
+                <input type="text" name="name" class="form-control" required>
+            </div>
+            <div class="btn-group">
+                <button type="submit" class="btn btn-word">Simpan</button>
+                <button type="button"
+                        class="btn btn-access"
+                        onclick="closeModal('modalYearForm')">Batal</button>
+            </div>
+        </form>
+    </div>
+</div>

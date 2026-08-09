@@ -1,0 +1,244 @@
+{% extends "blog/base.html" %}
+{% load static %}
+{% block title %}{{ article.title }} | {{ brand.name|default:"EduSpace" }}{% endblock %}
+{% block description %}{{ article.content|striptags|truncatechars:160 }}{% endblock %}
+{% block keywords %}{{ article.category.name|default:"" }}{% if article.tags.all %}, {% for tag in article.tags.all %}{{ tag.name }}{% if not forloop.last %}, {% endif %}{% endfor %}{% endif %}{% endblock %}
+{% block og_title %}{{ article.title }}{% endblock %}
+{% block og_description %}{{ article.content|striptags|truncatechars:160 }}{% endblock %}
+{% block og_image %}{% if article.thumbnail %}{{ article.thumbnail.url }}{% elif school.logo %}{{ school.logo.url }}{% else %}{% static 'images/default-school.jpg' %}{% endif %}{% endblock %}
+{% block twitter_title %}{{ article.title }}{% endblock %}
+{% block twitter_description %}{{ article.content|striptags|truncatechars:160 }}{% endblock %}
+{% block twitter_image %}{% if article.thumbnail %}{{ article.thumbnail.url }}{% elif school.logo %}{{ school.logo.url }}{% else %}{% static 'images/default-school.jpg' %}{% endif %}{% endblock %}
+{% block extra_css %}
+    <style>
+    .responsive-img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+    }
+    .article-featured-img {
+        width: 100%;
+        height: auto;
+        max-height: 400px;
+        object-fit: cover;
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--glass-shadow);
+    }
+    @media (max-width: 767px) {
+        .article-meta-bar {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        .article-container {
+            padding: 20px;
+        }
+        .author-box {
+            flex-direction: column;
+            text-align: center;
+        }
+        .author-box-avatar {
+            margin: 0 auto 12px;
+        }
+        .comments-section .glass-panel {
+            padding: 12px;
+        }
+        .share-buttons {
+            justify-content: flex-start;
+        }
+    }
+    </style>
+{% endblock %}
+{% block content %}
+    {% include "blog/ads.html" %}
+    <div class="page-layout">
+        <article class="article-container glass-panel reveal delay-1">
+            <nav class="breadcrumb">
+                <a href="/">Beranda</a>
+                <span><i class="fa-solid fa-angle-right"></i></span>
+                <a href="{% url 'blog:artikel' %}">Artikel</a>
+                <span><i class="fa-solid fa-angle-right"></i></span>
+                {% if article.category %}
+                    <a href="{% url 'blog:kategori' %}?cat={{ article.category.id }}">{{ article.category.name }}</a>
+                    <span><i class="fa-solid fa-angle-right"></i></span>
+                {% endif %}
+                <span>{{ article.title|truncatechars:30 }}</span>
+            </nav>
+            <h1 class="article-title">{{ article.title }}</h1>
+            <div class="article-meta-bar">
+                <div class="author-info-mini">
+                    {% if article.created_by.teacher.photo %}
+                        <img src="{{ article.created_by.teacher.photo.url }}"
+                             alt="Penulis"
+                             class="author-avatar responsive-img">
+                    {% else %}
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                             alt="Penulis"
+                             class="author-avatar responsive-img">
+                    {% endif %}
+                    <div>
+                        <span class="author-name">{{ article.created_by.get_full_name|default:article.created_by.username }}</span>
+                        <div style="font-size: 0.75rem; color: var(--text-muted);">{{ article.created_by.email|default:"" }}</div>
+                    </div>
+                </div>
+                <div>
+                    {% if article.category %}
+                        <span class="badge">{{ article.category.name }}</span>
+                    {% endif %}
+                </div>
+                <div><i class="fa-regular fa-calendar"></i> {{ article.created_at|date:"d M Y" }}</div>
+                <div><i class="fa-regular fa-clock"></i> {{ article.content|length|divisibleby:500|add:1 }} min baca</div>
+            </div>
+            {% if article.thumbnail %}
+                <img src="{{ article.thumbnail.url }}"
+                     alt="{{ article.title }}"
+                     class="article-featured-img responsive-img">
+            {% endif %}
+            <div class="article-content">{{ article.content|striptags|linebreaks }}</div>
+            {% if article.tags.all %}
+                <div class="article-tags">
+                    <span class="tag-label"><i class="fa-solid fa-tags"></i> Tags:</span>
+                    {% for tag in article.tags.all %}
+                        <a href="{% url 'blog:kategori' %}" class="tag-pill">{{ tag.name }}</a>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <div class="share-buttons"
+                 style="margin-top: 30px;
+                        padding-top: 24px;
+                        border-top: 1px solid var(--glass-border);
+                        display: flex;
+                        flex-wrap: wrap;
+                        gap: 10px;
+                        align-items: center">
+                <span class="tag-label"><i class="fa-solid fa-share-nodes"></i> Bagikan:</span>
+                <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}"
+                   target="_blank"
+                   rel="nofollow"
+                   class="tag-pill"
+                   style="background: #1877f2;
+                          color: white;
+                          border-color: #1877f2">
+                    <i class="fa-brands fa-facebook-f"></i> Facebook
+                </a>
+                <a href="https://twitter.com/intent/tweet?text={{ article.title|urlencode }}&url={{ request.build_absolute_uri }}"
+                   target="_blank"
+                   rel="nofollow"
+                   class="tag-pill"
+                   style="background: #1da1f2;
+                          color: white;
+                          border-color: #1da1f2">
+                    <i class="fa-brands fa-twitter"></i> Twitter
+                </a>
+                <a href="https://wa.me/?text={{ article.title|urlencode }}%20{{ request.build_absolute_uri }}"
+                   target="_blank"
+                   rel="nofollow"
+                   class="tag-pill"
+                   style="background: #25d366;
+                          color: white;
+                          border-color: #25d366">
+                    <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                </a>
+                <a href="https://t.me/share/url?url={{ request.build_absolute_uri }}&text={{ article.title|urlencode }}"
+                   target="_blank"
+                   rel="nofollow"
+                   class="tag-pill"
+                   style="background: #229ED9;
+                          color: white;
+                          border-color: #229ED9">
+                    <i class="fa-brands fa-telegram"></i> Telegram
+                </a>
+            </div>
+            <div class="author-box">
+                {% if article.created_by.teacher.photo %}
+                    <img src="{{ article.created_by.teacher.photo.url }}"
+                         alt="{{ article.created_by.get_full_name }}"
+                         class="author-box-avatar responsive-img">
+                {% else %}
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                         alt="{{ article.created_by.get_full_name }}"
+                         class="author-box-avatar responsive-img">
+                {% endif %}
+                <div class="author-box-info">
+                    <h4>Tentang {{ article.created_by.get_full_name|default:"Penulis" }}</h4>
+                    <p>{{ article.created_by.email|default:"Penulis di "|add:brand.name|default:"EduSpace" }}</p>
+                </div>
+            </div>
+            <div class="comments-section" style="margin-top: 40px;">
+                <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 20px;">
+                    <i class="fa-solid fa-comments"></i> Komentar ({{ comments.count }})
+                </h3>
+                {% for comment in comments %}
+                    <div class="glass-panel"
+                         style="padding: 16px;
+                                margin-bottom: 16px;
+                                border-radius: var(--border-radius-md)">
+                        <div style="display: flex;
+                                    justify-content: space-between;
+                                    align-items: center;
+                                    margin-bottom: 8px;
+                                    flex-wrap: wrap">
+                            <strong>{{ comment.name }}</strong>
+                            <small style="color: var(--text-muted);">{{ comment.created_at|date:"d M Y H:i" }}</small>
+                        </div>
+                        <p style="color: #334155; line-height: 1.6;">{{ comment.body }}</p>
+                    </div>
+                {% empty %}
+                    <p style="color: var(--text-muted);">Belum ada komentar. Jadilah yang pertama!</p>
+                {% endfor %}
+                <div class="glass-panel"
+                     style="padding: 24px;
+                            margin-top: 20px;
+                            border-radius: var(--border-radius-md)">
+                    <h4 style="font-weight: 700; margin-bottom: 16px;">Tulis Komentar</h4>
+                    <form method="post" action="{% url 'blog:single' article.slug %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label class="form-label">Nama</label>
+                            {{ comment_form.name }}
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            {{ comment_form.email }}
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Komentar</label>
+                            {{ comment_form.body }}
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-12">
+                            <i class="fa-solid fa-paper-plane"></i> Kirim Komentar
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </article>
+        <aside class="sidebar">
+            <div class="sidebar-sticky">
+                <div class="widget glass-panel reveal delay-1">
+                    <h3 class="widget-title"><i class="fa-solid fa-layer-group"></i> Kategori Arsip</h3>
+                    <ul class="category-list">
+                        {% for cat in categories %}
+                            <li class="category-item">
+                                <a href="{% url 'blog:kategori' %}?cat={{ cat.id }}">
+                                    <span>{{ cat.name }}</span>
+                                    <span class="category-count">{{ cat.article_set.count }}</span>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% if ads_sidebar %}
+                    <div class="ads-sidebar reveal delay-2" style="overflow: hidden;">
+                        <a href="{{ ads_sidebar.link }}" target="_blank" rel="nofollow">
+                            <img src="{{ ads_sidebar.image }}"
+                                 alt="{{ ads_sidebar.name }}"
+                                 class="responsive-img"
+                                 style="width:100%;
+                                        display:block">
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </aside>
+    </div>
+{% endblock %}

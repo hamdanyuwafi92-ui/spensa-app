@@ -1,0 +1,32 @@
+<div class="card glass-panel">
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Tahun Ajaran</th>
+                    <th>Semester</th>
+                    <th>Klub</th>
+                    <th>Total Siswa</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in data %}
+                    <tr>
+                        <td><span class="badge badge-light">{{ forloop.counter }}</span></td>
+                        <td><i class="fa-solid fa-calendar-days icon-indicator"
+   style="color: var(--word)"></i> <strong>{{ entry.activeyear }}</strong></td>
+                        <td><span class="badge badge-purple">{{ entry.semester }}</span></td>
+                        <td><i class="fa-solid fa-futbol icon-indicator"
+   style="color: var(--powerpoint)"></i> {{ entry.club }}</td>
+                        <td><span class="badge badge-green">{{ entry.total_students }}</span></td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="5">Belum ada riwayat pelatih.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

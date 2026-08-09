@@ -1,0 +1,41 @@
+<div class="modal-overlay" id="modalActiveClubForm">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 id="modalActiveClubTitle">Tambah Klub Aktif</h3>
+            <button class="modal-close" onclick="closeModal('modalActiveClubForm')">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <form id="activeClubForm" method="post">
+            {% csrf_token %}
+            <input type="hidden"
+                   name="activeyear"
+                   id="id_activeyear"
+                   value="{{ active_year.id|default:'' }}">
+            <div class="form-group">
+                <label class="form-label">Klub</label>
+                <select name="club" class="form-control" id="id_club" required>
+                    <option value="">---------</option>
+                    {% for club in clubs %}
+                        <option value="{{ club.id }}">{{ club.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Guru Pembina</label>
+                <select name="teacher" class="form-control" id="id_teacher" required>
+                    <option value="">---------</option>
+                    {% for teacher in teachers %}
+                        <option value="{{ teacher.id }}">{{ teacher.fullname }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="btn-group">
+                <button type="submit" class="btn btn-word">Simpan</button>
+                <button type="button"
+                        class="btn btn-access"
+                        onclick="closeModal('modalActiveClubForm')">Batal</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,8 @@
+<div class="card glass-panel">
+    <div class="tabs-container mb-20">
+        <button class="tab-btn active" data-target="tabClassroom">Kelas</button>
+        <button class="tab-btn" data-target="tabSubject">Mata Pelajaran</button>
+    </div>
+    <div class="tab-content active" id="tabClassroom">{% include "core/subjectroom/table_classroom.html" %}</div>
+    <div class="tab-content" id="tabSubject">{% include "core/subjectroom/table_subject.html" %}</div>
+</div>

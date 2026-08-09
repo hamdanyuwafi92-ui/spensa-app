@@ -1,0 +1,13 @@
+<div class="card glass-panel mb-24">
+    <div class="flex-between flex-wrap gap-16">
+        <div class="live-search-wrapper">
+            <input type="text"
+                   id="albumSearch"
+                   class="form-control w-250"
+                   placeholder="Cari album...">
+        </div>
+        <a href="{% url 'core:album_create' %}" class="btn btn-word">
+            <i class="fa-solid fa-plus"></i> Tambah Album
+        </a>
+    </div>
+</div>

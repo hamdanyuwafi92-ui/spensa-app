@@ -1,0 +1,67 @@
+<div class="card glass-panel">
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>Tahun</th>
+                    <th>Kelas</th>
+                    <th>Wali Kelas</th>
+                    <th>Kapasitas</th>
+                    <th>Siswa</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ac in active_classes %}
+                    <tr>
+                        <td>{{ ac.activeyear }}</td>
+                        <td>{{ ac.classroom }}</td>
+                        <td>{{ ac.teacher.fullname|default:"-" }}</td>
+                        <td>{{ ac.students.count }}/{{ ac.capacity }}</td>
+                        <td>
+                            <a href="{% url 'core:activeclass_manage' ac.pk %}"
+                               class="btn btn-sm btn-onenote">Kelola</a>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-excel"
+                                    onclick="editActiveClass({{ ac.id }}, {{ ac.activeyear.id }}, {{ ac.classroom.id }}, {{ ac.capacity }}, {% if ac.teacher %}{{ ac.teacher.id }}{% else %}null{% endif %})">
+                                <i class="fa-solid fa-pen"></i>
+                            </button>
+                            <button class="btn btn-sm btn-access"
+                                    onclick="confirmDelete('{% url 'core:activeclass_delete' ac.pk %}')">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="6">Belum ada kelas aktif.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% if is_paginated %}
+        <div class="pagination">
+            {% if page_obj.has_previous %}
+                <a href="?page=1" class="page-btn" title="Pertama"><i class="fa-solid fa-angles-left"></i></a>
+                <a href="?page={{ page_obj.previous_page_number }}" class="page-btn"><i class="fa-solid fa-angle-left"></i></a>
+            {% endif %}
+            {% for num in page_obj.paginator.page_range %}
+                {% if num >= page_obj.number|add:"-2" and num <= page_obj.number|add:"2" %}
+                    {% if page_obj.number == num %}
+                        <span class="page-btn active">{{ num }}</span>
+                    {% else %}
+                        <a href="?page={{ num }}" class="page-btn">{{ num }}</a>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="page-btn"><i class="fa-solid fa-angle-right"></i></a>
+                <a href="?page={{ page_obj.paginator.num_pages }}"
+                   class="page-btn"
+                   title="Terakhir"><i class="fa-solid fa-angles-right"></i></a>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>

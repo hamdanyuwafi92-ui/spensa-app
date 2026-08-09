@@ -1,0 +1,73 @@
+<div class="card glass-panel">
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Judul</th>
+                    <th>Penulis</th>
+                    <th>Status</th>
+                    <th>Dibuat</th>
+                    <th>Diperbarui</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for article in articles %}
+                    <tr>
+                        <td>{{ forloop.counter0|add:page_obj.start_index }}</td>
+                        <td>{{ article.title }}</td>
+                        <td>{{ article.created_by.get_full_name|default:article.created_by.username }}</td>
+                        <td>
+                            {% if article.status == 'publish' %}
+                                <span class="text-excel">Publish</span>
+                            {% else %}
+                                <span class="text-onenote">Draft</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ article.created_at|date:"d/m/Y H:i" }}</td>
+                        <td>{{ article.updated_at|date:"d/m/Y H:i" }}</td>
+                        <td>
+                            {% if article.created_by == request.user %}
+                                <a href="{% url 'core:article_update' article.slug %}"
+                                   class="btn btn-sm btn-excel"><i class="fa-solid fa-pen"></i></a>
+                                <button type="button"
+                                        class="btn btn-sm btn-access"
+                                        onclick="confirmDelete('{% url 'core:article_delete' article.slug %}')">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="7">Belum ada artikel.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% if is_paginated %}
+        <div class="pagination">
+            {% if page_obj.has_previous %}
+                <a href="?page=1" class="page-btn" title="Pertama"><i class="fa-solid fa-angles-left"></i></a>
+                <a href="?page={{ page_obj.previous_page_number }}" class="page-btn"><i class="fa-solid fa-angle-left"></i></a>
+            {% endif %}
+            {% for num in page_obj.paginator.page_range %}
+                {% if num >= page_obj.number|add:"-2" and num <= page_obj.number|add:"2" %}
+                    {% if page_obj.number == num %}
+                        <span class="page-btn active">{{ num }}</span>
+                    {% else %}
+                        <a href="?page={{ num }}" class="page-btn">{{ num }}</a>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="page-btn"><i class="fa-solid fa-angle-right"></i></a>
+                <a href="?page={{ page_obj.paginator.num_pages }}"
+                   class="page-btn"
+                   title="Terakhir"><i class="fa-solid fa-angles-right"></i></a>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>

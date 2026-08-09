@@ -1,0 +1,5 @@
+<footer class="footer anim-group" style="animation-delay: 0.5s">
+    &copy; {% if active_year %}{{ active_year.year }}{% else %}{% now "Y" %}{% endif %}
+    {{ school.name|default:"Sekolah" }}.
+    Dikembangkan oleh {{ brand.developer|default:"Tim Pengembang" }}.
+</footer>

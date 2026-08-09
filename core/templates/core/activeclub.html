@@ -1,0 +1,22 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Klub Aktif - {{ block.super }}{% endblock %}
+{% block extra_css %}{% endblock %}
+{% block heading %}{% endblock %}
+{% block content %}
+    {% include "core/activeclub/hero.html" %}
+    {% include "core/activeclub/control.html" %}
+    {% include "core/activeclub/table.html" %}
+    {% include "core/activeclub/mod.html" %}
+    {% include "core/activeclub/delete.html" %}
+{% endblock %}
+{% block extra_js %}
+    <script src="{% static 'js/activeclub.js' %}"></script>
+    {% if form_type == "activeclub" %}
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                openModal('modalActiveClubForm');
+            });
+        </script>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,194 @@
+{% extends "blog/base.html" %}
+{% load static %}
+{% block title %}{{ brand.name|default:"SPENSA" }} | Beranda{% endblock %}
+{% block extra_css %}
+    <style>
+    .hero-carousel {
+        position: relative;
+        overflow: hidden;
+        border-radius: var(--border-radius-lg);
+        height: 320px;
+    }
+    .hero-carousel .carousel-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+    .hero-carousel .carousel-item {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: opacity 0.8s ease;
+        background-size: cover;
+        background-position: center;
+    }
+    .hero-carousel .carousel-item.active {
+        opacity: 1;
+    }
+    .hero-carousel .carousel-caption {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 40px 20px 20px;
+        background: linear-gradient(to top, rgba(15, 23, 42, 0.9), transparent);
+        color: white;
+        text-align: left;
+    }
+    .hero-carousel .carousel-caption h4 {
+        margin: 0 0 4px;
+        font-size: 1.25rem;
+        font-weight: 700;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+    .hero-carousel .carousel-caption p {
+        margin: 0;
+        font-size: 0.95rem;
+        opacity: 0.9;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    }
+    </style>
+{% endblock %}
+{% block content %}
+    <section class="hero reveal">
+        <div class="hero-content">
+            <h1>Membangun Generasi Unggul Bersama <span>{{ school.name|default:"SPENSA" }}</span></h1>
+            <p>Pusat pendidikan modern yang memadukan kurikulum inovatif, fasilitas digital mutakhir, dan pembentukan karakter mulia untuk masa depan gemilang.</p>
+            <div class="hero-btns">
+                <a href="{% url 'blog:artikel' %}" class="btn btn-primary"><i class="fa-solid fa-compass"></i> Jelajahi Artikel</a>
+                <a href="{% url 'blog:page' %}" class="btn btn-outline"><i class="fa-solid fa-circle-info"></i> Profil Sekolah</a>
+            </div>
+            <form action="{% url 'blog:search' %}"
+                  method="get"
+                  class="flex gap-12 mt-24">
+                <div class="search-container w-full">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="search"
+                           name="q"
+                           class="search-input w-full"
+                           placeholder="Cari artikel...">
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-search"></i>
+                </button>
+            </form>
+        </div>
+        <div class="hero-card glass-panel">
+            {% if hero_slides %}
+                <div class="hero-carousel" id="heroCarousel">
+                    <div class="carousel-inner">
+                        {% for slide in hero_slides %}
+                            <div class="carousel-item {% if forloop.first %}active{% endif %}"
+                                 style="background-image: url('{{ slide.image }}')">
+                                {% if slide.title or slide.subtitle %}
+                                    <div class="carousel-caption">
+                                        {% if slide.title %}<h4>{{ slide.title }}</h4>{% endif %}
+                                        {% if slide.subtitle %}<p>{{ slide.subtitle }}</p>{% endif %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% elif school.logo %}
+                <img src="{{ school.logo.url }}" alt="{{ school.name }}" class="hero-img">
+            {% else %}
+                <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                     alt="Sekolah"
+                     class="hero-img">
+            {% endif %}
+        </div>
+    </section>
+    <section class="features-grid">
+        {% for feature in features %}
+            <div class="feature-card glass-panel reveal delay-{{ forloop.counter }}">
+                <div class="feature-icon">
+                    <i class="{{ feature.icon }}"></i>
+                </div>
+                <h3>{{ feature.title }}</h3>
+                <p>{{ feature.description }}</p>
+            </div>
+        {% empty %}
+            <div class="glass-panel"
+                 style="padding:40px;
+                        text-align:center;
+                        grid-column:1/-1">
+                <p>Belum ada fitur yang ditampilkan.</p>
+            </div>
+        {% endfor %}
+    </section>
+    <section class="reveal">
+        <div class="section-header">
+            <h2 class="section-title">Artikel & Informasi Terbaru</h2>
+            <p class="section-desc">Ikuti perkembangan, berita kegiatan, serta wawasan edukatif terkini dari lingkungan sekolah.</p>
+        </div>
+        <div class="articles-grid">
+            {% for article in articles %}
+                <a href="{% url 'blog:single' article.slug %}"
+                   class="article-card glass-panel">
+                    <div class="article-img-wrap">
+                        {% if article.thumbnail %}
+                            <img src="{{ article.thumbnail.url }}"
+                                 alt="{{ article.title }}"
+                                 class="article-img"
+                                 loading="lazy">
+                        {% else %}
+                            <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                                 alt="Artikel"
+                                 class="article-img"
+                                 loading="lazy">
+                        {% endif %}
+                    </div>
+                    <div class="article-body">
+                        <div class="article-meta">
+                            <span class="badge">{{ article.category.name|default:"Umum" }}</span>
+                            <span><i class="fa-regular fa-calendar"></i> {{ article.created_at|date:"d M Y" }}</span>
+                        </div>
+                        <h3 class="article-title">{{ article.title }}</h3>
+                        <p class="article-excerpt">{{ article.content|striptags|truncatechars:120 }}</p>
+                    </div>
+                </a>
+            {% empty %}
+                <div class="glass-panel"
+                     style="padding:40px;
+                            text-align:center;
+                            grid-column:1/-1">
+                    <p>Belum ada artikel.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% if ads_sidebar %}
+        <div class="ads-sidebar reveal delay-3"
+             style="max-width: 250px;
+                    margin: 40px auto 0">
+            <a href="{{ ads_sidebar.link }}"
+               target="_blank"
+               rel="nofollow"
+               style="display: block">
+                <img src="{{ ads_sidebar.image }}"
+                     alt="{{ ads_sidebar.name }}"
+                     style="width: 100%;
+                            height: auto;
+                            display: block">
+            </a>
+        </div>
+    {% endif %}
+{% endblock %}
+{% block extra_js %}
+    <script>
+    (function() {
+        const slides = document.querySelectorAll('.hero-carousel .carousel-item');
+        if (slides.length < 2) return;
+        let current = 0;
+        setInterval(() => {
+            slides[current].classList.remove('active');
+            current = (current + 1) % slides.length;
+            slides[current].classList.add('active');
+        }, 4000);
+    })();
+    </script>
+{% endblock %}

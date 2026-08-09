@@ -1,0 +1,13 @@
+<div class="card glass-panel mb-24 flex gap-12">
+    <form method="get" class="flex gap-12 w-full">
+        <select name="subject_id" class="form-control" onchange="this.form.submit()">
+            <option value="">-- Pilih Mata Pelajaran --</option>
+            {% for subject in subjects %}
+                <option value="{{ subject.pk }}"
+                        {% if selected_subject.pk == subject.pk %}selected{% endif %}>
+                    {{ subject.subject.name }} - {{ subject.classroom }}
+                </option>
+            {% endfor %}
+        </select>
+    </form>
+</div>

@@ -1,0 +1,13 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Profil - {{ block.super }}{% endblock %}
+{% block heading %}{% endblock %}
+{% block content %}
+    {% if profile %}
+        {% include "core/profile/hero.html" %}
+        {% include "core/profile/detail.html" %}
+        {% include "core/profile/control.html" %}
+    {% else %}
+        {% include "core/profile/fallback.html" %}
+    {% endif %}
+{% endblock %}

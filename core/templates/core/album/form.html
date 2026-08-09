@@ -1,0 +1,38 @@
+<div class="card glass-panel">
+    <h3 class="card-title">{{ form_title }}</h3>
+    <form method="post" enctype="multipart/form-data" class="form-grid">
+        {% csrf_token %}
+        <div class="form-group grid-full">
+            <label class="form-label" for="id_title">Judul Album</label>
+            {{ form.title }}
+            {% if form.title.errors %}<div class="form-error">{{ form.title.errors }}</div>{% endif %}
+        </div>
+        <div class="form-group grid-full">
+            <label class="form-label" for="id_thumbnail">Thumbnail</label>
+            {{ form.thumbnail }}
+            <div id="thumbnailPreviewContainer" class="mt-12">
+                {% if form.instance.thumbnail %}
+                    <img id="thumbnailPreview"
+                         src="{{ form.instance.thumbnail.url }}"
+                         alt="Preview"
+                         class="thumbnail-preview">
+                {% else %}
+                    <img id="thumbnailPreview"
+                         src="#"
+                         alt="Preview"
+                         class="thumbnail-preview hidden">
+                {% endif %}
+            </div>
+            {% if form.thumbnail.errors %}<div class="form-error">{{ form.thumbnail.errors }}</div>{% endif %}
+        </div>
+        <div class="form-group grid-full">
+            <label class="form-label" for="id_caption">Caption</label>
+            {{ form.caption }}
+            {% if form.caption.errors %}<div class="form-error">{{ form.caption.errors }}</div>{% endif %}
+        </div>
+        <div class="btn-group grid-full">
+            <button type="submit" class="btn btn-word"><i class="fa-solid fa-save"></i> Simpan</button>
+            <a href="{% url 'core:album_list' %}" class="btn btn-access">Batal</a>
+        </div>
+    </form>
+</div>
