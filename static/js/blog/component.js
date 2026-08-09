@@ -132,6 +132,7 @@ function initMobileMenu() {
 
     mobileBtn.addEventListener('click', function (e) {
         e.preventDefault(); // mencegah perilaku default
+        e.stopPropagation(); // mencegah event bubbling ke document
         navLinks.classList.toggle('show');
         // Ganti ikon
         if (navLinks.classList.contains('show')) {
